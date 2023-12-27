@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import logger from "./logger";
 import initializeStylistRouter from "./module/stylist/routes/stylist.route";
 import cors from 'cors';
-
+import errorHandler from "./middleware/error-handler";
 
 const initializeApp = async (): Promise<void> => {
   dotenv.config();
@@ -25,6 +25,8 @@ const initializeApp = async (): Promise<void> => {
   const port = process.env.PORT || 8000;
 
   app.use('/stylist', initializeStylistRouter());
+
+  app.use(errorHandler);
 
   app.listen(port, () => {
     logger.info(`Server is running on ${host}:${port}`);

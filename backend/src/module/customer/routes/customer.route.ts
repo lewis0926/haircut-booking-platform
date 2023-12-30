@@ -1,7 +1,7 @@
 import express from "express";
 import CustomerController from "../controllers/customer.controller";
 
-const initalizeCustomerRouter = (): express.Router => {
+const initializeCustomerRouter = (): express.Router => {
   const customerRouter = express.Router();
 
   const customerController = new CustomerController();
@@ -15,4 +15,4 @@ const initalizeCustomerRouter = (): express.Router => {
   return customerRouter;
 }
 
-export default initalizeCustomerRouter;
+export default initializeCustomerRouter;

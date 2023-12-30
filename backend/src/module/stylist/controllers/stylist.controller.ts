@@ -1,23 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import StylistModel from "../models/stylist.model";
-import logger from "../../../logger";
-import { Types } from "mongoose";
-import { NotFoundError } from "../../../middleware/custom-errors";
+import StylistService from "../service/stylist.service";
 
 class StylistController {
-  private readonly stylistModel;
+  private readonly stylistService;
 
-  constructor() {
-    this.stylistModel = StylistModel;
+  constructor(stylistService: StylistService) {
+    this.stylistService = stylistService;
   }
 
   public getAllStylists = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.info("Getting all stylists");
-
-      const stylists = await this.stylistModel.find({});
-      logger.info(`Stylists: ${JSON.stringify(stylists)}`);
-
+      const stylists = await this.stylistService.getAllStylists();
       res.send(stylists);
     } catch (err) {
       next(err);
@@ -26,11 +19,7 @@ class StylistController {
 
   public createStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      logger.info(`Adding new stylist: ${JSON.stringify(req.body)}`);
-
-      const newStylist = new this.stylistModel(req.body);
-      await newStylist.save();
-
+      const newStylist = await this.stylistService.createStylist(req.body);
       res.send(newStylist);
     } catch (err) {
       next(err);
@@ -39,14 +28,7 @@ class StylistController {
 
   public deleteStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const stylistId = req?.params?.id;
-      if (!stylistId) {
-        throw new NotFoundError(`Stylist not found with id: ${stylistId}`);
-      }
-
-      logger.info(`Deleting stylist with id: ${stylistId}`);
-      await this.stylistModel.findByIdAndDelete(stylistId);
-
+      await this.stylistService.deleteStylist(req?.params?.id);
       res.send("Deleted successfully");
     } catch (err) {
       next(err);
@@ -55,22 +37,8 @@ class StylistController {
 
   public updateStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const stylistId = req?.params?.id;
-      if (!stylistId) {
-        throw new NotFoundError(`Stylist not found with id: ${stylistId}`);
-      }
-
-      logger.info(`Updating task with id: ${req?.params?.id}`);
-
-      const updatedStylist = req.body;
-
-      await this.stylistModel.updateOne(
-        { _id: new Types.ObjectId(stylistId) },
-        { $set: updatedStylist }
-      );
-
-      logger.info(`Updated task: ${JSON.stringify(updatedStylist)}`);
-      res.send(updatedStylist);
+      const updatedShop = await this.stylistService.updateStylist(req?.params?.id, req.body);
+      res.send(updatedShop);
     } catch (err) {
       next(err);
     }

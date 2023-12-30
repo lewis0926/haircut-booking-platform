@@ -78,4 +78,3 @@ class StylistController {
 }
 
 export default StylistController;
-

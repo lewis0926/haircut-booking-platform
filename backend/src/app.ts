@@ -5,6 +5,7 @@ import logger from "./logger";
 import initializeStylistRouter from "./module/stylist/routes/stylist.route";
 import cors from 'cors';
 import errorHandler from "./middleware/error-handler";
+import initalizeCustomerRouter from './module/customer/routes/customer.route';
 
 const initializeApp = async (): Promise<void> => {
   dotenv.config();
@@ -25,6 +26,7 @@ const initializeApp = async (): Promise<void> => {
   const port = process.env.PORT || 8000;
 
   app.use('/stylist', initializeStylistRouter());
+  app.use('/customer', initalizeCustomerRouter());
 
   app.use(errorHandler);
 

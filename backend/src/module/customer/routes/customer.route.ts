@@ -1,10 +1,8 @@
 import express from "express";
 import CustomerController from "../controllers/customer.controller";
 
-const initializeCustomerRouter = (): express.Router => {
+const initializeCustomerRouter = (customerController: CustomerController): express.Router => {
   const customerRouter = express.Router();
-
-  const customerController = new CustomerController();
 
   customerRouter.post("/", customerController.createCustomer);
   customerRouter.get("/", customerController.getAllCustomers);

@@ -1,4 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
+import CustomerInterface from "../interfaces/customer.interface";
+
+interface CustomerDocument extends Document, CustomerInterface {}
 
 const customerSchema = new Schema(
   {
@@ -24,4 +27,4 @@ const customerSchema = new Schema(
     timestamps: true,
   });
 
-export default mongoose.model("customers", customerSchema);
+export default mongoose.model<CustomerDocument>("customers", customerSchema);

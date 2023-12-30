@@ -11,6 +11,7 @@ const initalizeCustomerRouter = (): express.Router => {
   customerRouter.get("/:id", customerController.getCustomer);
   customerRouter.put("/:id", customerController.updateCustomer);
   customerRouter.delete("/:id", customerController.deleteCustomer);
+  customerRouter.post("/signup", customerController.signUp);
   return customerRouter;
 }
 

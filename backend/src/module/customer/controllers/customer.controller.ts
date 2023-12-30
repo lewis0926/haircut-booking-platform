@@ -4,6 +4,7 @@ import logger from "../../../logger";
 import { Types } from "mongoose";
 import { NotFoundError } from "../../../middleware/custom-errors";
 import { ObjectId } from 'mongodb';
+import {auth} from "../../../config/firebase.config";
 
 class CustomerController {
   private readonly customerModel;
@@ -94,6 +95,23 @@ class CustomerController {
       next(err);
     }
   }
+
+  public signUp = async (req: Request, res: Response, next: NextFunction) => {
+    logger.info("Customer signing up")
+    const objectId = new ObjectId().toHexString();
+    await auth.createUser({
+      uid: objectId,
+      email: req.body.email,
+      password: req.body.password,
+    }).then(() => {
+      logger.info("Signed up successfully")
+      const updatedBody = {...req.body, _id: objectId};
+      const updatedReq = req;
+      updatedReq.body = updatedBody;
+      this.createCustomer(updatedReq, res, next);
+    }).catch((err) => next(err));
+    
+  };
 }
 
 export default CustomerController;

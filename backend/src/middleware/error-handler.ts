@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { InternalServerError, NotFoundError, ValidationError } from "./custom-errors";
+import { AuthenticationError, InternalServerError, NotFoundError, ValidationError } from "./custom-errors";
 import { Error } from "mongoose";
 
 const errorHandler = (
@@ -18,6 +18,10 @@ const errorHandler = (
 
   if (err instanceof InternalServerError) {
     return res.status(500).json({ error: 'Internal Server Error', message: err.message });
+  }
+
+  if (err instanceof AuthenticationError) {
+    return res.status(500).json({ error: 'Authentication Error', message: err.message });
   }
 
   return res.status(500).json({ error: 'Generic Error', message: err.message });

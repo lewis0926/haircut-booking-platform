@@ -19,8 +19,16 @@ class InternalServerError extends Error {
   }
 }
 
+class AuthenticationError extends Error {
+  constructor(message: string = "Authentication Error") {
+    super(message);
+    this.name = 'AuthenticationError';
+  }
+}
+
 export {
   NotFoundError,
   ValidationError,
   InternalServerError,
+  AuthenticationError
 };

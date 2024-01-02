@@ -26,15 +26,6 @@ class CustomerController {
     }
   }
 
-  public createCustomer = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const newCustomer = await this.customerService.createCustomer(req.body);
-      res.status(201).send(newCustomer);
-    } catch (err) {
-      next(err);
-    }
-  }
-
   public updateCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const updateCustomer = await this.customerService.updateCustomer(req.params?.id, req.body);
@@ -53,9 +44,9 @@ class CustomerController {
     }
   }
 
-  public signUp = async (req: Request, res: Response, next: NextFunction) => {
+  public signUpCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const newCustomer = await this.customerService.signUp(req.body);
+      const newCustomer = await this.customerService.signUpCustomer(req.body);
       res.status(200).send(newCustomer);
     } catch (err) {
       next(err);

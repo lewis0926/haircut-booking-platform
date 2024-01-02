@@ -1,8 +1,8 @@
 import mongoose, { Schema, Types } from 'mongoose';
-import ShopInterface from "../../shop/interfaces/shop.interface";
 import { ServiceType } from "../enum/service-type.enum";
+import StylistInterface from "../interface/stylist.interface";
 
-interface StylistDocument extends Document, ShopInterface {}
+interface StylistDocument extends Document, StylistInterface {}
 
 const stylistSchema = new Schema(
   {
@@ -38,6 +38,14 @@ const stylistSchema = new Schema(
     description: {
       type: String,
     },
+
+    email: {
+      type: String,
+    },
+
+    phone: {
+      type: String,
+    }
   },
   {
     timestamps: true,

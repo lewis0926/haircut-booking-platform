@@ -1,6 +1,6 @@
 import logger from "../../../logger";
 import Booking from "../interfaces/booking.interface";
-import { NotFoundError } from "../../../middleware/custom-errors";
+import { NotFoundError, UnauthorizedError } from "../../../middleware/custom-errors";
 import { Types } from "mongoose";
 import BookingModel from "../models/booking.model";
 import CustomerService from "../../customer/services/customer.service";
@@ -21,14 +21,14 @@ class BookingService {
   }
 
   public getBookingsByCustomer = async (customerId: string): Promise<Booking[]> => {
-    logger.info("Getting bookings by customer");
+    logger.info(`Getting bookings by customer with id: ${customerId}`);
     return await this.bookingModel.find({
       customerId: new Types.ObjectId(customerId)
     });
   }
 
   public getBookingsByStylist = async (stylistId: string): Promise<Booking[]> => {
-    logger.info("Getting bookings by stylist");
+    logger.info(`Getting bookings by stylist with id: ${stylistId}`);
     return await this.bookingModel.find({
       stylistId: new Types.ObjectId(stylistId)
     });
@@ -50,9 +50,17 @@ class BookingService {
     return newBooking;
 }
 
-  public cancelBooking = async (bookingId: string) => {
-    if (!bookingId) {
+  public cancelBooking = async (bookingId: string, customerId?: string, stylistId?: string) => {
+    const booking = await this.bookingModel.findById(bookingId);
+
+    if (!booking) {
       throw new NotFoundError(`Booking not found with id: ${bookingId}`);
+    }
+    if (customerId && booking.customerId.toString() !== customerId) {
+      throw new UnauthorizedError("You are not authorized to cancel this booking");
+    }
+    if (stylistId && booking.stylistId.toString() !== stylistId) {
+      throw new UnauthorizedError("You are not authorized to cancel this booking");
     }
 
     logger.info(`Cancelling booking with id: ${bookingId}`);
@@ -65,15 +73,24 @@ class BookingService {
     return await this.bookingModel.findById(bookingId);
   }
 
-  public updateBooking = async (bookingId: string, body: any) => {
-    if (!bookingId) {
+  public updateBooking = async (bookingId: string, body: any, customerId?: string, stylistId?: string) => {
+    const booking = await this.bookingModel.findById(bookingId);
+
+    if (!booking) {
       throw new NotFoundError(`Booking not found with id: ${bookingId}`);
     }
+    if (customerId && booking.customerId.toString() !== customerId) {
+      throw new UnauthorizedError("You are not authorized to update this booking");
+    }
+    if (stylistId && booking.stylistId.toString() !== stylistId) {
+      throw new UnauthorizedError("You are not authorized to update this booking");
+    }
+
     if (body.customerId && !(await this.customerService.getCustomer(body.customerId))) {
-      throw new NotFoundError(`Customer not found with id: ${body.customerId}`);
+      throw new NotFoundError(`Customer in body not found with id: ${body.customerId}`);
     }
     if (body.stylistId && !(await this.stylistService.getStylistById(body.stylistId))) {
-      throw new NotFoundError(`Stylist not found with id: ${body.stylistId}`);
+      throw new NotFoundError(`Stylist in body not found with id: ${body.stylistId}`);
     }
 
     logger.info(`Updating booking with id: ${bookingId}`);

@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { AuthenticationError, InternalServerError, NotFoundError, ValidationError } from "./custom-errors";
+import {
+  AuthenticationError,
+  InternalServerError,
+  NotFoundError,
+  UnauthorizedError,
+  ValidationError
+} from "./custom-errors";
 import { Error } from "mongoose";
+import logger from "../logger";
 
 const errorHandler = (
   err: Error,
@@ -8,6 +15,8 @@ const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  logger.error(err);
+
   if (err instanceof NotFoundError) {
     return res.status(404).json({ error: 'Not Found', message: err.message });
   }
@@ -21,7 +30,11 @@ const errorHandler = (
   }
 
   if (err instanceof AuthenticationError) {
-    return res.status(500).json({ error: 'Authentication Error', message: err.message });
+    return res.status(401).json({ error: 'Authentication Error', message: err.message });
+  }
+
+  if (err instanceof UnauthorizedError) {
+    return res.status(403).json({ error: 'Unauthorized Error', message: err.message });
   }
 
   return res.status(500).json({ error: 'Generic Error', message: err.message });

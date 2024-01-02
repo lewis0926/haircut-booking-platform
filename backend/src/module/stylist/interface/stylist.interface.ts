@@ -13,6 +13,8 @@ interface Stylist {
   lastName: string;
   serviceTypes: StylistServiceType[];
   description?: string;
+  email?: string;
+  phone?: string;
 }
 
 export default Stylist;

@@ -4,12 +4,12 @@ import CustomerController from "../controllers/customer.controller";
 const initializeCustomerRouter = (customerController: CustomerController): express.Router => {
   const customerRouter = express.Router();
 
-  customerRouter.post("/", customerController.createCustomer);
   customerRouter.get("/", customerController.getAllCustomers);
   customerRouter.get("/:id", customerController.getCustomer);
+  customerRouter.post("/signup", customerController.signUpCustomer);
   customerRouter.put("/:id", customerController.updateCustomer);
   customerRouter.delete("/:id", customerController.deleteCustomer);
-  customerRouter.post("/signup", customerController.signUp);
+
   return customerRouter;
 }
 

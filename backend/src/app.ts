@@ -16,6 +16,7 @@ import CustomerService from "./module/customer/services/customer.service";
 import initializeBookingRouter from "./module/booking/routes/booking.route";
 import BookingService from "./module/booking/service/booking.service";
 import BookingController from "./module/booking/controllers/booking.controller";
+import AuthService from "./module/auth/services/auth.service";
 
 const initializeApp = async (): Promise<void> => {
   dotenv.config();
@@ -37,15 +38,16 @@ const initializeApp = async (): Promise<void> => {
   const port = process.env.PORT || 8000;
 
   // Initialize services and controllers
+  const authService = new AuthService();
   const shopService = new ShopService();
-  const stylistService = new StylistService(shopService);
-  const customerService = new CustomerService();
+  const stylistService = new StylistService(shopService, authService);
+  const customerService = new CustomerService(authService);
   const bookingService = new BookingService(customerService, stylistService);
 
   const shopController = new ShopController(shopService);
   const stylistController = new StylistController(stylistService);
   const customerController = new CustomerController(customerService);
-  const bookingController = new BookingController(bookingService);
+  const bookingController = new BookingController(bookingService, authService);
 
   // Initialize routers
   app.use('/stylist', initializeStylistRouter(stylistController));

@@ -1,7 +1,8 @@
 import { Types } from 'mongoose';
+import { ServiceType } from "../enum/service-type.enum";
 
 interface StylistServiceType {
-  name: string;
+  name: ServiceType;
   price: number;
 }
 

@@ -21,6 +21,11 @@ class StylistService {
     return await this.stylistModel.find({});
   }
 
+  public getStylistById = async (stylistId: string): Promise<Stylist | null> => {
+    logger.info(`Getting stylist with id: ${stylistId}`);
+    return await this.stylistModel.findById(stylistId);
+  }
+
   public createStylist = async (body: any) => {
     logger.info(`Adding new stylist: ${JSON.stringify(body)}`);
 

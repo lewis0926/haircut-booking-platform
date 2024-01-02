@@ -11,6 +11,8 @@ import StylistService from "./module/stylist/service/stylist.service";
 import ShopService from "./module/shop/service/shop.service";
 import StylistController from "./module/stylist/controllers/stylist.controller";
 import ShopController from "./module/shop/controllers/shop.controller";
+import CustomerController from "./module/customer/controllers/customer.controller";
+import CustomerService from "./module/customer/services/customer.service";
 
 const initializeApp = async (): Promise<void> => {
   dotenv.config();
@@ -34,13 +36,15 @@ const initializeApp = async (): Promise<void> => {
   // Initialize services and controllers
   const shopService = new ShopService();
   const stylistService = new StylistService(shopService);
+  const customerService = new CustomerService();
 
   const shopController = new ShopController(shopService);
   const stylistController = new StylistController(stylistService);
+  const customerController = new CustomerController(customerService);
 
   // Initialize routers
   app.use('/stylist', initializeStylistRouter(stylistController));
-  app.use('/customer', initializeCustomerRouter());
+  app.use('/customer', initializeCustomerRouter(customerController));
   app.use('/shop', initializeShopRouter(shopController));
 
   // Error handler

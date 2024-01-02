@@ -65,6 +65,10 @@ class StylistService {
 
     return await this.stylistModel.findById(stylistId);
   }
+
+  public getStylistById = async (stylistId: string): Promise<Stylist | null> => {
+    return await this.stylistModel.findById(stylistId);
+  }
 }
 
 export default StylistService;

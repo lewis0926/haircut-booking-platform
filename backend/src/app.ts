@@ -7,12 +7,15 @@ import cors from 'cors';
 import errorHandler from "./middleware/error-handler";
 import initializeCustomerRouter from './module/customer/routes/customer.route';
 import initializeShopRouter from "./module/shop/routes/shop.route";
+import initializeReviewRouter from "./module/review/routes/review.route";
 import StylistService from "./module/stylist/service/stylist.service";
 import ShopService from "./module/shop/service/shop.service";
 import StylistController from "./module/stylist/controllers/stylist.controller";
 import ShopController from "./module/shop/controllers/shop.controller";
 import CustomerController from "./module/customer/controllers/customer.controller";
 import CustomerService from "./module/customer/services/customer.service";
+import ReviewService from './module/review/service/review.service';
+import ReviewController from './module/review/controllers/review.controller';
 
 const initializeApp = async (): Promise<void> => {
   dotenv.config();
@@ -37,15 +40,18 @@ const initializeApp = async (): Promise<void> => {
   const shopService = new ShopService();
   const stylistService = new StylistService(shopService);
   const customerService = new CustomerService();
+  const reviewService = new ReviewService(customerService, stylistService);
 
   const shopController = new ShopController(shopService);
   const stylistController = new StylistController(stylistService);
   const customerController = new CustomerController(customerService);
+  const reviewController = new ReviewController(reviewService);
 
   // Initialize routers
   app.use('/stylist', initializeStylistRouter(stylistController));
   app.use('/customer', initializeCustomerRouter(customerController));
   app.use('/shop', initializeShopRouter(shopController));
+  app.use('/review', initializeReviewRouter(reviewController));
 
   // Error handler
   app.use(errorHandler);

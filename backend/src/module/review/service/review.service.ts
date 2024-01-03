@@ -85,12 +85,15 @@ class ReviewService {
     return await this.reviewModel.findById(reviewId);
   }
 
-  public getReviewByStylistId = async (id: string): Promise<Review[]> => {
-    
+  public getReviewsByStylistId = async (id: string): Promise<Review[]> => {
+    const stylist = await this.stylistService.getStylistById(id);
+    if (!stylist) {
+      throw new NotFoundError(`Stylist not found with id: ${id}`);
+    }
     return await this.reviewModel.find({stylistId: id}).exec();
   }
 
-  public getReviewByCustomerId = async (id: string): Promise<Review[]> => {
+  public getReviewsByCustomerId = async (id: string): Promise<Review[]> => {
     return await this.reviewModel.find({customertId: id});
   }
 }

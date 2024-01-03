@@ -1,7 +1,8 @@
 import { Types } from 'mongoose';
+import { ServiceType } from "../enum/service-type.enum";
 
 interface StylistServiceType {
-  name: string;
+  name: ServiceType;
   price: number;
 }
 
@@ -12,6 +13,8 @@ interface Stylist {
   lastName: string;
   serviceTypes: StylistServiceType[];
   description?: string;
+  email?: string;
+  phone?: string;
 }
 
 export default Stylist;

@@ -3,14 +3,18 @@ import { NotFoundError } from "../../../middleware/custom-errors";
 import { Types } from "mongoose";
 import CustomerModel from "../models/customer.model";
 import Customer from "../interfaces/customer.interface";
-import { ObjectId } from "mongodb";
-import { auth } from "../../../config/firebase.config";
+import AuthService from "../../auth/services/auth.service";
+import { Role } from "../../auth/enum/role.enum";
 
 class CustomerService {
   private readonly customerModel;
+  private readonly authService;
 
-  constructor() {
+  constructor(
+    authService: AuthService,
+  ) {
     this.customerModel = CustomerModel;
+    this.authService = authService;
   }
 
   public getCustomer = async (customerId: string): Promise<Customer | null> => {
@@ -25,15 +29,6 @@ class CustomerService {
   public getAllCustomers = async (): Promise<Customer[]> => {
     logger.info(`Getting all customers`);
     return await this.customerModel.find({});
-  }
-
-  public createCustomer = async (body: any) => {
-    logger.info(`Adding new customer: ${JSON.stringify(body)}`);
-
-    const newCustomer = new this.customerModel(body);
-    await newCustomer.save();
-
-    return newCustomer;
   }
 
   public updateCustomer = async (customerId: string, body: any): Promise<Customer | null> => {
@@ -62,19 +57,14 @@ class CustomerService {
     return;
   }
 
-  public signUp = async (body: any): Promise<Customer | null> => {
-    logger.info("Customer signing up")
-    const objectId = new ObjectId().toHexString();
+  public signUpCustomer = async (body: any): Promise<Customer | null> => {
+    const id = await this.authService.signUpFirebase(body.email, body.password, Role.CUSTOMER);
+    body = {...body, _id: id};
 
-    await auth.createUser({
-      uid: objectId,
-      email: body.email,
-      password: body.password,
-    })
+    const newCustomer = new this.customerModel(body);
+    await newCustomer.save();
 
-    logger.info("Signed up successfully")
-    const updatedBody = {...body, _id: objectId};
-    return await this.createCustomer(updatedBody);
+    return newCustomer;
   }
 }
 

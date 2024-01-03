@@ -9,6 +9,7 @@ const initializeReviewRouter = (reviewController: ReviewController): express.Rou
   reviewRouter.post('/', reviewController.createReview);
   reviewRouter.delete('/:id', reviewController.deleteReview);
   reviewRouter.put('/:id', reviewController.updateReview);
+  reviewRouter.get('/getByStylist/:id', reviewController.getReviewsByStylist);
 
   return reviewRouter;
 }

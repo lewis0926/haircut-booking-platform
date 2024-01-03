@@ -52,6 +52,24 @@ class ReviewController {
       next(err);
     }
   }
+
+  public getReviewsByStylist = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const reviews = await this.reviewService.getReviewsByStylistId(req.params?.id);
+      res.status(200).send(reviews);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public getReviewsByCustomer = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const reviews = await this.reviewService.getReviewsByCustomerId(req.params?.id);
+      res.status(200).send(reviews);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default ReviewController;

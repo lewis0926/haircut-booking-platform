@@ -4,16 +4,21 @@ import { Types } from "mongoose";
 import StylistModel from "../models/stylist.model";
 import Stylist from "../interface/stylist.interface";
 import ShopService from "../../shop/service/shop.service";
+import { Role } from "../../auth/enum/role.enum";
+import AuthService from "../../auth/services/auth.service";
 
 class StylistService {
   private readonly stylistModel;
   private readonly shopService;
+  private readonly authService;
 
   constructor(
-    shopService: ShopService
+    shopService: ShopService,
+    authService: AuthService,
   ) {
     this.stylistModel = StylistModel;
     this.shopService = shopService;
+    this.authService = authService;
   }
 
   public getAllStylists = async (): Promise<Stylist[]> => {
@@ -21,13 +26,21 @@ class StylistService {
     return await this.stylistModel.find({});
   }
 
-  public createStylist = async (body: any) => {
+  public getStylistById = async (stylistId: string): Promise<Stylist | null> => {
+    logger.info(`Getting stylist with id: ${stylistId}`);
+    return await this.stylistModel.findById(stylistId);
+  }
+
+  public signUpStylist = async (body: any): Promise<Stylist | null> => {
     logger.info(`Adding new stylist: ${JSON.stringify(body)}`);
 
     const shop = await this.shopService.getShopById(body.shopId);
     if (!shop) {
       throw new NotFoundError(`Shop not found with id: ${body.shopId}`);
     }
+
+    const id = await this.authService.signUpFirebase(body.email, body.password, Role.STYLIST);
+    body = {...body, _id: id};
 
     const newStylist = new this.stylistModel(body);
     await newStylist.save();

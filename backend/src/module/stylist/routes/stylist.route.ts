@@ -5,7 +5,7 @@ const initializeStylistRouter = (stylistController: StylistController): express.
   const stylistRouter = express.Router();
 
   stylistRouter.get('/', stylistController.getAllStylists);
-  stylistRouter.post('/', stylistController.createStylist);
+  stylistRouter.post('/signup', stylistController.signUpStylist);
   stylistRouter.delete('/:id', stylistController.deleteStylist);
   stylistRouter.put('/:id', stylistController.updateStylist);
   return stylistRouter;

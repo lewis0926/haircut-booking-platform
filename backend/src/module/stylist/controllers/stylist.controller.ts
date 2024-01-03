@@ -11,16 +11,16 @@ class StylistController {
   public getAllStylists = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const stylists = await this.stylistService.getAllStylists();
-      res.send(stylists);
+      res.status(200).send(stylists);
     } catch (err) {
       next(err);
     }
   }
 
-  public createStylist = async (req: Request, res: Response, next: NextFunction) => {
+  public signUpStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const newStylist = await this.stylistService.createStylist(req.body);
-      res.send(newStylist);
+      const newStylist = await this.stylistService.signUpStylist(req.body);
+      res.status(201).send(newStylist);
     } catch (err) {
       next(err);
     }
@@ -29,7 +29,7 @@ class StylistController {
   public deleteStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
       await this.stylistService.deleteStylist(req?.params?.id);
-      res.send("Deleted successfully");
+      res.status(200).send("Deleted successfully");
     } catch (err) {
       next(err);
     }
@@ -38,7 +38,7 @@ class StylistController {
   public updateStylist = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const updatedShop = await this.stylistService.updateStylist(req?.params?.id, req.body);
-      res.send(updatedShop);
+      res.status(200).send(updatedShop);
     } catch (err) {
       next(err);
     }

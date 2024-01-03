@@ -26,9 +26,17 @@ class AuthenticationError extends Error {
   }
 }
 
+class UnauthorizedError extends Error {
+  constructor(message: string = "Unauthorized Error") {
+    super(message);
+    this.name = 'UnauthorizedError';
+  }
+}
+
 export {
   NotFoundError,
   ValidationError,
   InternalServerError,
-  AuthenticationError
+  AuthenticationError,
+  UnauthorizedError,
 };

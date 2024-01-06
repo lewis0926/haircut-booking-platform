@@ -15,6 +15,8 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import Stylists from "./pages/Stylists";
+import { AuthProvider } from "./contexts/AuthContext";
+import BookingForm from "./pages/Booking/Booking";
 
 function App() {
 
@@ -37,13 +39,16 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/stylists" element={<Stylists />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/stylists" element={<Stylists />} />
+          <Route path="/booking" element={<BookingForm stylId={'659082113bce1fda24bd4e20'} />} />
+        </Routes>
+      </AuthProvider>
     </>
   );
 }

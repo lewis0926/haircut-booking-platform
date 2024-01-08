@@ -1,11 +1,10 @@
 import React, {Fragment, useEffect, useState} from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import StylistBlocks from "../partials/StylistBlocks";
-import useFetch from "../network/useFetch";
 import {getAll} from "../network/stylistCrud";
 import {ServiceTypeLabels, ServiceType} from "../enum/service-type.enum";
 import {SortOptionType, SortOptionTypeLabel} from "../enum/sort-option-type.enum";
@@ -244,7 +243,7 @@ export default function Stylists() {
                     <div className="py-1">
                       {Object.entries(SortOptionType).map(([key, value]) => (
                         <Menu.Item key={value}>
-                          <div className= 'text-sm text-gray-600 block px-4 py-2 text-sm' style={{ cursor: 'pointer' }} onClick={() => handleSortChange(value)}>
+                          <div className= 'text-sm text-gray-600 block px-4 py-2' style={{ cursor: 'pointer' }} onClick={() => handleSortChange(value)}>
                             {SortOptionTypeLabel[value]}
                           </div>
                         </Menu.Item>

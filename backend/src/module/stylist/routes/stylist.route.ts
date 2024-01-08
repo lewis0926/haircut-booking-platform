@@ -8,6 +8,7 @@ const initializeStylistRouter = (stylistController: StylistController): express.
   stylistRouter.post('/signup', stylistController.signUpStylist);
   stylistRouter.delete('/:id', stylistController.deleteStylist);
   stylistRouter.put('/:id', stylistController.updateStylist);
+  stylistRouter.get('/:id', stylistController.getStylist);
   return stylistRouter;
 }
 

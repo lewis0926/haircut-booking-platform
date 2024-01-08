@@ -43,6 +43,15 @@ class StylistController {
       next(err);
     }
   }
+
+  public getStylist = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const stylist = await this.stylistService.getStylistById(req?.params?.id);
+      res.status(200).send(stylist);
+    } catch (err) {
+      next(err);
+    }
+  }  
 }
 
 export default StylistController;

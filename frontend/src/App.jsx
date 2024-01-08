@@ -46,7 +46,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/stylists" element={<Stylists />} />
-          <Route path="/booking" element={<BookingForm stylId={'659082113bce1fda24bd4e20'} />} />
+          {/* temporarily  hard code stylist ID for testing*/}
+          <Route path="/booking/:stylId" element={<BookingForm stylId={'659082113bce1fda24bd4e20'} />} />
         </Routes>
       </AuthProvider>
     </>

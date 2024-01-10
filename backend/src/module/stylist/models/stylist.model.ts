@@ -6,10 +6,10 @@ interface StylistDocument extends Document, StylistInterface {}
 
 const stylistSchema = new Schema(
   {
-    shopId: {
-      type: Types.ObjectId,
-      required: true,
-    },
+    // shopId: {
+    //   type: Types.ObjectId,
+    //   required: true,
+    // },
 
     firstName: {
       type: String,
@@ -33,6 +33,7 @@ const stylistSchema = new Schema(
           required: true,
         },
       }],
+      _id: false,
     },
 
     description: {

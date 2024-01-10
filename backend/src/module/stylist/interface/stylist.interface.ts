@@ -15,6 +15,7 @@ interface Stylist {
   description?: string;
   email?: string;
   phone?: string;
+  iconPath?: string;
 }
 
 export default Stylist;

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { ServiceType } from "../enum/service-type.enum";
 import StylistInterface from "../interface/stylist.interface";
 
@@ -45,6 +45,10 @@ const stylistSchema = new Schema(
     },
 
     phone: {
+      type: String,
+    },
+
+    iconPath: {
       type: String,
     }
   },

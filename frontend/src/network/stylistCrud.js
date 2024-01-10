@@ -11,3 +11,13 @@ export const getAll = async () => {
     return null;
   }
 }
+
+export const signUpStylist = async (body) => {
+  try {
+    const response = await axios.post(`${baseUrl}/signup`, body);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

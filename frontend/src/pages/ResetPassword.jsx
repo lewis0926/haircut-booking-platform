@@ -46,7 +46,7 @@ function ResetPassword() {
 
       </main>
 
-      <Banner />
+      {/* <Banner /> */}
 
     </div>
   );

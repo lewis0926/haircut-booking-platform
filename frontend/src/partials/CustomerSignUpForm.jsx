@@ -92,12 +92,12 @@ function CustomerSignUpForm() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Sign up</button>
+                      <button className="btn text-white bg-rose-700 hover:bg-rose-800 w-full">Sign up</button>
                     </div>
                   </div>
                 </form>
                 <div className="text-gray-600 text-center mt-6">
-                  Already have account? <Link to="/signin" className="text-blue-600 hover:underline transition duration-150 ease-in-out">Sign in</Link>
+                  Already have account? <Link to="/signin" className="text-rose-600 hover:underline transition duration-150 ease-in-out">Sign in</Link>
                 </div>
               </div>
 

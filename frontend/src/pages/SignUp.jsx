@@ -17,19 +17,17 @@ function SignUp() {
       {/*  Site header */}
       <Header />
 
+
       {isCustomer ? <CustomerSignUpForm /> : <StylistSignUpForm />}
 
-      <div className="text-center mt-4">
-        <button
-          onClick={toggleForm}
-          className="btn text-white bg-blue-600 hover:bg-blue-700 w-full"
-        >
-          {isCustomer ? "Switch to Stylist Sign Up" : "Switch to Customer Sign Up"}
-        </button>
+      <div className="fixed bottom-0 right-0 w-full md:bottom-8 md:right-12 md:w-auto z-60">
+        <div className="bg-slate-800 text-slate-50 text-sm p-3 md:rounded shadow-lg flex justify-between">
+          {/* <div className='text-slate-500 inline-flex'><a className="font-medium hover:underline text-slate-50" href="https://github.com/cruip/tailwind-landing-page-template" target="_blank" rel="noreferrer">Download<span className="hidden sm:inline"> on GitHub</span></a> <span className="italic px-1.5">or</span> <a className="font-medium hover:underline text-emerald-400" href="https://cruip.com/simple/" target="_blank" rel="noreferrer">Check Premium Version</a></div> */}
+          <button className="text-white hover:text-slate-200 border-gray-700" onClick={toggleForm}>
+            {isCustomer ? "Switch to Stylist Sign Up" : "Switch to Customer Sign Up"}
+          </button>
+        </div>
       </div>
-
-      <Banner />
-
     </div>
   );
 }

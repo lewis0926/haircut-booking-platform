@@ -8,7 +8,7 @@ interface StylistServiceType {
 
 interface Stylist {
   _id?: Types.ObjectId;
-  shopId: Types.ObjectId;
+  // shopId: Types.ObjectId;
   firstName: string;
   lastName: string;
   serviceTypes: StylistServiceType[];

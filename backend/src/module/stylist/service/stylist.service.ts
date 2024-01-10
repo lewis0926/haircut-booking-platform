@@ -34,10 +34,10 @@ class StylistService {
   public signUpStylist = async (body: any): Promise<Stylist | null> => {
     logger.info(`Adding new stylist: ${JSON.stringify(body)}`);
 
-    const shop = await this.shopService.getShopById(body.shopId);
-    if (!shop) {
-      throw new NotFoundError(`Shop not found with id: ${body.shopId}`);
-    }
+    // const shop = await this.shopService.getShopById(body.shopId);
+    // if (!shop) {
+    //   throw new NotFoundError(`Shop not found with id: ${body.shopId}`);
+    // }
 
     const id = await this.authService.signUpFirebase(body.email, body.password, Role.STYLIST);
     body = {...body, _id: id};
@@ -64,10 +64,10 @@ class StylistService {
       throw new NotFoundError(`Stylist not found with id: ${stylistId}`);
     }
 
-    const shop = await this.shopService.getShopById(body.shopId);
-    if (!shop) {
-      throw new NotFoundError(`Shop not found with id: ${body.shopId}`);
-    }
+    // const shop = await this.shopService.getShopById(body.shopId);
+    // if (!shop) {
+    //   throw new NotFoundError(`Shop not found with id: ${body.shopId}`);
+    // }
 
     logger.info(`Updating stylist with id: ${stylistId}`);
 

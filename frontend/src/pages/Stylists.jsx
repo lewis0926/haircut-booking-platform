@@ -243,7 +243,7 @@ export default function Stylists() {
                     <div className="py-1">
                       {Object.entries(SortOptionType).map(([key, value]) => (
                         <Menu.Item key={value}>
-                          <div className= 'text-sm text-gray-600 block px-4 py-2' style={{ cursor: 'pointer' }} onClick={() => handleSortChange(value)}>
+                          <div className= 'text-sm text-gray-600 block px-4 py-2' xf onClick={() => handleSortChange(value)}>
                             {SortOptionTypeLabel[value]}
                           </div>
                         </Menu.Item>

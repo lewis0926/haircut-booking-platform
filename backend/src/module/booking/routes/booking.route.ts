@@ -10,6 +10,7 @@ const initializeBookingRouter = (bookingController: BookingController): express.
   bookingRouter.post('/', verifyToken, bookingController.createBooking);
   bookingRouter.delete('/:id', verifyToken, bookingController.cancelBooking);
   bookingRouter.put('/:id', verifyToken, bookingController.updateBooking);
+  bookingRouter.get('/stylist/:id/startTime/:startTime/endTime/:endTime', bookingController.getBookingsByStylistTime);
   return bookingRouter;
 }
 

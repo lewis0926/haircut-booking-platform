@@ -1,7 +1,7 @@
 import logger from "../../../logger";
 import Booking from "../interfaces/booking.interface";
 import { NotFoundError, UnauthorizedError } from "../../../middleware/custom-errors";
-import { Types } from "mongoose";
+import { Date, Types } from "mongoose";
 import BookingModel from "../models/booking.model";
 import CustomerService from "../../customer/services/customer.service";
 import StylistService from "../../stylist/service/stylist.service";
@@ -102,6 +102,23 @@ class BookingService {
 
     return await this.bookingModel.findById(bookingId);
   }
+
+  public getBookingsByStylistTime = async (id: string, startTime: string, endTime: string): Promise<Booking[]> => {
+    logger.info(`Getting bookings by stylist with id: ${id} from ${startTime} to ${endTime} (exclusive)`);
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+    if (end <= start) {
+      throw new Error("End time must be greater than start time.");
+    }
+    let bookings = await this.bookingModel.find({
+      stylistId: new Types.ObjectId(id),
+      startAt:{
+        $gte: new Date(startTime),
+        $lt: new Date(endTime)
+      }
+    });
+    return bookings.sort((a: Booking, b: Booking) => a.startAt.getDate() - b.startAt.getDate());
+  } 
 }
 
 export default BookingService;

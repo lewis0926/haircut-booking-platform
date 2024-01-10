@@ -1,16 +1,55 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+import Modal from '../utils/Modal';
 import Header from '../partials/Header';
 import Banner from '../partials/Banner';
+import Welcome from '../images/welcome.png';
+
+const baseURL = "http://localhost:8000/customer/signup";
 
 function SignUp() {
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const [modalOpen, setModalOpen] = React.useState(false);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    axios.post(baseURL, {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      password: password
+    })
+    .then((response) => {
+      console.log(response.data);
+      setModalOpen(true);
+    })
+    .catch(error => console.warn(error));
+  }
+
+
+
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
 
       {/*  Site header */}
       <Header />
-
+      {/* Modal */}
+      <Modal id="modal" ariaLabel="modal-headline" show={modalOpen} handleClose={()=>{
+      window.location.href='/signin'}}>
+          <div className='p-5'>
+            <img className="" src={Welcome}/>
+            <p className='text-center'>Sign in with you new account now!</p>
+          </div>
+      </Modal>
       {/*  Page content */}
       <main className="flex-grow">
 
@@ -20,28 +59,40 @@ function SignUp() {
 
               {/* Page header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                <h1 className="h1">Welcome. We exist to make entrepreneurism easier.</h1>
+                <h1 className="h1"><span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-rose-900">Welcome. </span>Sign up to unlock the best haircut experience.</h1>
               </div>
 
               {/* Form */}
               <div className="max-w-sm mx-auto">
-                <form>
+                <form onSubmit={(e)=>handleSubmit(e)}>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
-                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="name">Name <span className="text-red-600">*</span></label>
-                      <input id="name" type="text" className="form-input w-full text-gray-800" placeholder="Enter your name" required />
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="name">First Name <span className="text-red-600">*</span></label>
+                      <input id="firstName" type="text" className="form-input w-full text-gray-800" placeholder="Enter your first name" onChange={(e) => setFirstName(e.target.value)} required />
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full px-3">
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="name">Last Name <span className="text-red-600">*</span></label>
+                      <input id="lastNname" type="text" className="form-input w-full text-gray-800" placeholder="Enter your last name" onChange={(e) => setLastName(e.target.value)} required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Email <span className="text-red-600">*</span></label>
-                      <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Enter your email address" required />
+                      <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Enter your email address" onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full px-3">
+                      <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="email">Phone <span className="text-red-600">*</span></label>
+                      <input id="phone" type="text" className="form-input w-full text-gray-800" placeholder="Enter your phone Number" onChange={(e) => setPhone(e.target.value)} required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="password">Password <span className="text-red-600">*</span></label>
-                      <input id="password" type="password" className="form-input w-full text-gray-800" placeholder="Enter your password" required />
+                      <input id="password" type="password" className="form-input w-full text-gray-800" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} required />
                     </div>
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
@@ -51,7 +102,7 @@ function SignUp() {
                   </div>
                   <div className="text-sm text-gray-500 text-center mt-3">
                     By creating an account, you agree to the <a className="underline" href="#0">terms & conditions</a>, and our <a className="underline" href="#0">privacy policy</a>.
-                                </div>
+                  </div>
                 </form>
                 <div className="flex items-center my-6">
                   <div className="border-t border-gray-300 flex-grow mr-3" aria-hidden="true"></div>
@@ -59,7 +110,7 @@ function SignUp() {
                   <div className="border-t border-gray-300 flex-grow ml-3" aria-hidden="true"></div>
                 </div>
                 <form>
-                  <div className="flex flex-wrap -mx-3 mb-3">
+                  {/* <div className="flex flex-wrap -mx-3 mb-3">
                     <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
                         <svg className="w-4 h-4 fill-current text-white opacity-75 flex-shrink-0 mx-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -68,10 +119,13 @@ function SignUp() {
                         <span className="flex-auto pl-16 pr-8 -ml-16">Continue with GitHub</span>
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-3">
-                      <button className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center">
+                      <button className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center" onClick={(e)=>{
+                              e.preventDefault();
+                            e.stopPropagation();
+                            setModalOpen(true);}}>
                         <svg className="w-4 h-4 fill-current text-white opacity-75 flex-shrink-0 mx-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
                           <path d="M7.9 7v2.4H12c-.2 1-1.2 3-4 3-2.4 0-4.3-2-4.3-4.4 0-2.4 2-4.4 4.3-4.4 1.4 0 2.3.6 2.8 1.1l1.9-1.8C11.5 1.7 9.9 1 8 1 4.1 1 1 4.1 1 8s3.1 7 7 7c4 0 6.7-2.8 6.7-6.8 0-.5 0-.8-.1-1.2H7.9z" />
                         </svg>

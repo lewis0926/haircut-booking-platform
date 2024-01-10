@@ -63,7 +63,11 @@ function Modal({
         leaveStart="opacity-100 scale-100"
         leaveEnd="opacity-0 scale-95"
       >
-        <div className="bg-white overflow-auto max-w-6xl w-full max-h-full" ref={modalContent}>          
+        <div className="relative bg-slate-50 overflow-auto md:w-2/5 w-full  rounded" ref={modalContent}>          
+          <button className="absolute right-2 top-2" onClick={()=>{handleClose()}}>
+            <svg className="" xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
+            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/></svg>
+          </button> 
           {children}
         </div>
       </Transition>    

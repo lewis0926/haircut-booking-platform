@@ -6,7 +6,7 @@ function StylistBlocks({stylists}) {
 
 
   return (
-    <section className="relative">
+    <section id='stylists' className="relative">
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
 

@@ -1,10 +1,11 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, useField, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import http from "../../api/http-common.js";
-import {adjustHours} from "../../utils/DateUtil.js";
-import { useAuth } from "../../contexts/AuthContext";
+import http from "../api/http-common.js";
+import {adjustHours} from "../utils/DateUtil.js";
+import { useAuth } from "../contexts/AuthContext.jsx";
 import { useParams } from "react-router-dom";
+import ImageSlider from './ImageSlider.jsx';
 
 const BookingInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -35,7 +36,7 @@ const MySelect = ({ label, ...props }) => {
   );
 };
 
-const BookingForm = () => {
+const Booking = () => {
   const [bookedTimes, setBookedTimes] = useState();
   const [availableTimes, setAvailableTimes] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState();
@@ -191,11 +192,11 @@ const BookingForm = () => {
         
           {/* Section header */}
           <div className="text-center pb-12 md:pb-16">
-            <h1 className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4" data-aos="zoom-y-out">
+            <h1 className="text-5xl font-extrabold leading-tighter tracking-tighter mb-4" data-aos="zoom-y-out">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-rose-900">Secure your new look</span>
             </h1>
           </div>
-		  <div className="flex justify-center items-center">
+		  <div className="flex justify-center items-center pb-20 mb-20">
             <Form className="flex">
 			  <div className="-mx-3 mb-4 px-3">
 				<div className="w-full px-3">
@@ -259,4 +260,4 @@ const BookingForm = () => {
   );
 };
 
-export default BookingForm;
+export default Booking;

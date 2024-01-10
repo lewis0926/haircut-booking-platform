@@ -10,7 +10,7 @@ class BlobController {
 
   public getBlobsRefPaths = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const paths = await this.blobService.getBlobsRefPaths(req.params.id, req.query.type as string);
+      const paths = await this.blobService.getBlobsRefPaths(req.query.ids as string[], req.query.type as string);
       res.status(200).send(paths);
     } catch (err) {
       next(err);

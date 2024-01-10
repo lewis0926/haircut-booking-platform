@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ServiceType, ServiceTypeLabels } from '../enum/service-type.enum';
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 import {signUpStylist} from "../network/stylistCrud";
 import {createBlob} from "../network/blobCrud";
 
@@ -92,7 +92,6 @@ const StylistSignUpForm = () => {
         console.log('Stylist signed up successfully!');
       } catch (error) {
         console.error('Error signing up stylist: ', error);
-        return;
       }
     }
   };
@@ -103,19 +102,6 @@ const StylistSignUpForm = () => {
       ...prevData,
       [name]: type === 'file' ? files[0] : value,
     }));
-  };
-
-  const uploadFile = async (file) => {
-    const storage = getStorage();
-    const storageRef = ref(storage, `your-path/${file.name}`);
-
-    try {
-      // Upload the file
-      await uploadBytes(storageRef, file);
-      console.log("File uploaded successfully!");
-    } catch (error) {
-      console.error("Error uploading file: ", error);
-    }
   };
 
   return (

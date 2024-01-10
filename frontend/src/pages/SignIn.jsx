@@ -58,7 +58,7 @@ function SignIn() {
 
               {/* Page header */}
               <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-                <h1 className="h1">Sign in to make an appointment!</h1>
+                <h1 className="h1"><span className="bg-clip-text text-transparent bg-gradient-to-r from-rose-400 to-rose-900">Welcome back. </span>Sign in to make an appointment!</h1>
               </div>
 
               {/* Form */}

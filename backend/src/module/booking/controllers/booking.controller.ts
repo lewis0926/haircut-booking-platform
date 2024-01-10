@@ -3,6 +3,7 @@ import BookingService from "../service/booking.service";
 import { AuthRequest } from "../../../middleware/verify-firebase-token";
 import { Role } from "../../auth/enum/role.enum";
 import AuthService from "../../auth/services/auth.service";
+import { Date } from 'mongoose';
 
 class BookingController {
   private readonly bookingService;
@@ -40,9 +41,9 @@ class BookingController {
 
   public createBooking = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      await this.authService.verifyCustomer(req.authData?.role as Role);
+      // await this.authService.verifyCustomer(req.authData?.role as Role);
 
-      req.body.customerId = req.authData?.uid;
+      // req.body.customerId = req.authData?.uid;
       const booking = await this.bookingService.createBooking(req.body);
       res.status(201).send(booking);
     } catch (err) {
@@ -75,6 +76,15 @@ class BookingController {
       }
 
       res.status(200).send(booking);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  public getBookingsByStylistTime = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    try {
+      const bookings = await this.bookingService.getBookingsByStylistTime(req.params?.id as string, req.params?.startTime as string, req.params?.endTime as string);
+      res.status(200).send(bookings);
     } catch (err) {
       next(err);
     }

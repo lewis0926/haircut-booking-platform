@@ -16,7 +16,7 @@ import SignUp from './pages/SignUp';
 import ResetPassword from './pages/ResetPassword';
 import Stylists from "./pages/Stylists";
 import { AuthProvider } from "./contexts/AuthContext";
-import BookingForm from "./pages/Booking/Booking";
+import StylistDetail from './pages/StylistDetail';
 
 function App() {
 
@@ -46,7 +46,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/stylists" element={<Stylists />} />
-          <Route path="/booking/:stylId" element={<BookingForm />} />
+          <Route path="/stylistDetail/:stylId" element={<StylistDetail />} />
         </Routes>
       </AuthProvider>
     </>

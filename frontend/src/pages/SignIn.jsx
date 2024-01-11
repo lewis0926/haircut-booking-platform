@@ -10,8 +10,10 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [errorMsg, setErrorMsg] = useState(false);
   const { currentUser, login, setError } = useAuth();
+
+  if (currentUser!=null) window.location.href = '/stylists';
 
   const signIn = async (e) => {
     console.log('Signing in...');
@@ -21,9 +23,12 @@ function SignIn() {
       setLoading(true);
       console.log('logging in...');
       await login(email, password);
+      console.log('After logging in...');
     } catch (err) {
       console.log("Sign in Error: " + err);
       setError("Failed to login");
+    } finally{
+      console.log('Finsh logging in...');
     }
 
     const fetch = async () => {
@@ -32,14 +37,17 @@ function SignIn() {
         console.log("CURRENT USER: " + JSON.stringify(currentUser));
         const t = currentUser && (await currentUser.getIdToken());
         console.log("TOKEN: " + t);
+        if (t == null) setErrorMsg('Your email and password do not match. Please try again.');
         // setToken(t);
       } catch (e) {
         console.log(e);
+      } finally {
+        console.log('After fetch');
+        if (currentUser!=null) window.location.href = '/stylists';
       }
     }
     await fetch();
 
-    console.log('After fetch');
     // setLoading(false);
   };
 
@@ -70,15 +78,26 @@ function SignIn() {
                       <input id="email" type="email" className="form-input w-full text-gray-800" placeholder="Enter your email address" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </div>
                   </div>
-                  <div className="flex flex-wrap -mx-3 mb-4">
+                  <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-3">
                       <div className="flex justify-between">
                         <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="password">Password</label>
-                        <Link to="/reset-password" className="text-sm font-medium text-blue-600 hover:underline">Having trouble signing in?</Link>
+                        <Link to="/reset-password" className="text-sm font-medium text-rose-600 hover:underline">Having trouble signing in?</Link>
                       </div>
                       <input id="password" type="password" className="form-input w-full text-gray-800" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </div>
                   </div>
+                  <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full px-3">
+                      <div className="flex justify-between">
+                      <div className="text-gray-600 text-center">
+                        <span className="text-rose-600 text-sm">{errorMsg}</span>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+
                   <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full px-3">
                       <div className="flex justify-between">
@@ -124,7 +143,7 @@ function SignIn() {
                   </div> */}
                 </form>
                 <div className="text-gray-600 text-center mt-6">
-                  Don’t you have an account? <Link to="/signup" className="text-blue-600 hover:underline transition duration-150 ease-in-out">Sign up</Link>
+                  Don’t you have an account? <Link to="/signup" className="text-rose-600 hover:underline transition duration-150 ease-in-out">Sign up</Link>
                 </div>
               </div>
 

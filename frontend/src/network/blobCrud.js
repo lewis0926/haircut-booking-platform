@@ -11,3 +11,16 @@ export const createBlob = async (body) => {
     return null;
   }
 }
+
+export const getBlobs = async (ids, type) => {
+  try {
+    const response = await axios.get(baseUrl, {
+      headers: {"Content-Type": "application/json"},
+      params: {ids, type}
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

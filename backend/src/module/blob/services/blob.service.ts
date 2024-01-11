@@ -9,12 +9,19 @@ class BlobService {
     this.blobModel = BlobModel;
   }
 
-  public getBlobsRefPaths = async (userId: string, type: string): Promise<string[]> => {
-    if (!userId || !type) throw new Error("Missing userId or type");
+  public getBlobsRefPaths = async (userIds: string[], type: string): Promise<any[]> => {
+    if (!userIds || userIds.length === 0) throw new Error("Missing userIds");
+    if (!type) throw new Error("Missing type");
 
-    const blobs = await this.blobModel.find({userId, type});
-    return blobs.map(blob => `${blob.type}/${blob.fileName}`);
+    const blobs = await this.blobModel.find({ userId: { $in: userIds }, type: type });
+    return blobs.map(blob => {
+      return {
+        userId: blob.userId,
+        path: `${blob.type}/${blob.fileName}`
+      }
+    });
   }
+
 
   public createBlob = async (body: any): Promise<BlobInterface> => {
     const blob = new this.blobModel(body);

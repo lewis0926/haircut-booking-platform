@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     console.log("AuthContext login");
     try {
-      signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (e) {
         console.log("Log in error: " + e);
     }

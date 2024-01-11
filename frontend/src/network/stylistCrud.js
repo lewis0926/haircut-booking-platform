@@ -21,3 +21,23 @@ export const signUpStylist = async (body) => {
     return null;
   }
 }
+
+export const getStylistDetails = async (id) => {
+  try {
+    const response = await axios.get(`${baseUrl}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export const updateStylistDetails = async (id, body) => {
+  try {
+    const response = await axios.put(`${baseUrl}/${id}`, body);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}

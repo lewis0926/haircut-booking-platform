@@ -92,16 +92,16 @@ function SignIn() {
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
                       {/* <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Sign in</button> */}
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full" type="submit">Log In</button>
+                      <button className="btn text-white bg-rose-700 hover:bg-rose-800 w-full" type="submit">Log In</button>
                     </div>
                   </div>
-                </form>
+                {/* </form>
                 <div className="flex items-center my-6">
                   <div className="border-t border-gray-300 flex-grow mr-3" aria-hidden="true"></div>
                   <div className="text-gray-600 italic">Or</div>
                   <div className="border-t border-gray-300 flex-grow ml-3" aria-hidden="true"></div>
                 </div>
-                <form>
+                <form> */}
                   {/* <div className="flex flex-wrap -mx-3 mb-3">
                     <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-gray-900 hover:bg-gray-800 w-full relative flex items-center">
@@ -112,7 +112,7 @@ function SignIn() {
                       </button>
                     </div>
                   </div> */}
-                  <div className="flex flex-wrap -mx-3">
+                  {/* <div className="flex flex-wrap -mx-3">
                     <div className="w-full px-3">
                       <button className="btn px-0 text-white bg-red-600 hover:bg-red-700 w-full relative flex items-center">
                         <svg className="w-4 h-4 fill-current text-white opacity-75 flex-shrink-0 mx-4" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
@@ -121,7 +121,7 @@ function SignIn() {
                         <span className="flex-auto pl-16 pr-8 -ml-16">Continue with Google</span>
                       </button>
                     </div>
-                  </div>
+                  </div> */}
                 </form>
                 <div className="text-gray-600 text-center mt-6">
                   Don’t you have an account? <Link to="/signup" className="text-blue-600 hover:underline transition duration-150 ease-in-out">Sign up</Link>
@@ -134,7 +134,7 @@ function SignIn() {
 
       </main>
 
-      <Banner />
+      {/* <Banner /> */}
 
     </div>
   );

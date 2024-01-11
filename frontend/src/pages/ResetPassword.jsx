@@ -34,7 +34,7 @@ function ResetPassword() {
                   </div>
                   <div className="flex flex-wrap -mx-3 mt-6">
                     <div className="w-full px-3">
-                      <button className="btn text-white bg-blue-600 hover:bg-blue-700 w-full">Send reset link</button>
+                      <button className="btn text-white bg-rose-700 hover:bg-rose-800 w-full">Send reset link</button>
                     </div>
                   </div>
                 </form>
@@ -46,7 +46,7 @@ function ResetPassword() {
 
       </main>
 
-      <Banner />
+      {/* <Banner /> */}
 
     </div>
   );

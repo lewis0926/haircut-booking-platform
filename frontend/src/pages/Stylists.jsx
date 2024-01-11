@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react'
-import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
+import { Dialog, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/20/solid'
 import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import StylistBlocks from "../partials/StylistBlocks";
@@ -17,9 +17,9 @@ export default function Stylists() {
   const [maxPrice, setMaxPrice] = useState(1000);
   const [categoryFilter, setCategoryFilter] = useState({
     [ServiceType.HAIRCUT]: true,
-    [ServiceType.HAIRCOLORING]: true,
-    [ServiceType.HAIRSTYLING]: true,
-    [ServiceType.HAIRTREATMENT]: true,
+    [ServiceType.HAIR_COLORING]: true,
+    [ServiceType.HAIR_STYLING]: true,
+    [ServiceType.HAIR_TREATMENT]: true,
     [ServiceType.NAIL]: true,
     [ServiceType.SKINCARE]: true,
     [ServiceType.MAKEUP]: true,
@@ -54,11 +54,11 @@ export default function Stylists() {
         return stylists.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         });
-      case SortOptionType.LOWTOHIGH:
+      case SortOptionType.LOW_TO_HIGH:
         return stylists.sort((a, b) => {
           return a.serviceTypes[0].price - b.serviceTypes[0].price;
         });
-      case SortOptionType.HIGHTOLOW:
+      case SortOptionType.HIGH_TO_LOW:
         return stylists.sort((a, b) => {
           return b.serviceTypes[b.serviceTypes.length - 1].price - a.serviceTypes[a.serviceTypes.length - 1].price;
         });
@@ -140,45 +140,32 @@ export default function Stylists() {
 
                   {/* Filters */}
                   <form className="mt-4 border-t border-gray-200">
-                    <Disclosure as="div" key="category" className="border-t border-gray-200 px-4 py-6">
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">Category</span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                ) : (
-                                  <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-4">
-                              {Object.entries(categoryFilter).map(([key, value]) => (
-                                <div key={key} className="flex items-center">
-                                  <input
-                                    id={`category-${key}`}
-                                    type="checkbox"
-                                    defaultChecked={value}
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                    onChange={(e) => handleFilterChange(key, e.target.checked)}
-                                  />
-                                  <label
-                                    htmlFor={`category-${key}`}
-                                    className="ml-3 text-sm text-gray-600"
-                                  >
-                                    {ServiceTypeLabels[key]}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <div as="div" key="category" className="border-t border-gray-200 px-4 py-6">
+                      <>
+                        <span className="font-medium text-gray-900">Category</span>
+                        <div className="pt-6">
+                          <div className="space-y-4">
+                            {Object.entries(categoryFilter).map(([key, value]) => (
+                              <div key={key} className="flex items-center">
+                                <input
+                                  id={`category-${key}`}
+                                  type="checkbox"
+                                  defaultChecked={value}
+                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  onChange={(e) => handleFilterChange(key, e.target.checked)}
+                                />
+                                <label
+                                  htmlFor={`category-${key}`}
+                                  className="ml-3 text-sm text-gray-600"
+                                >
+                                  {ServiceTypeLabels[key]}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    </div>
 
                     <div className="mx-4 space-y-4 my-8">
                       <div className="flex items-center">
@@ -272,45 +259,32 @@ export default function Stylists() {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
-                <Disclosure as="div" key="category" className="border-b border-gray-200 py-6">
-                  {({ open }) => (
-                    <>
-                      <h3 className="-my-3 flow-root">
-                        <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                          <span className="font-medium text-gray-900">Category</span>
-                          <span className="ml-6 flex items-center">
-                            {open ? (
-                              <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                            ) : (
-                              <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                            )}
-                          </span>
-                        </Disclosure.Button>
-                      </h3>
-                      <Disclosure.Panel className="pt-6">
-                        <div className="space-y-4">
-                          {Object.entries(categoryFilter).map(([key, value]) => (
-                            <div key={key} className="flex items-center">
-                              <input
-                                id={`category-${key}`}
-                                type="checkbox"
-                                defaultChecked={value}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                onChange={(e) => handleFilterChange(key, e.target.checked)}
-                              />
-                              <label
-                                htmlFor={`category-${key}`}
-                                className="ml-3 text-sm text-gray-600"
-                              >
-                                {ServiceTypeLabels[key]}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                <div key="category" className="border-b border-gray-200 pb-6">
+                  <>
+                    <span className="font-medium text-gray-900">Category</span>
+                    <div className="pt-6">
+                      <div className="space-y-4">
+                        {Object.entries(categoryFilter).map(([key, value]) => (
+                          <div key={key} className="flex items-center">
+                            <input
+                              id={`category-${key}`}
+                              type="checkbox"
+                              defaultChecked={value}
+                              className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              onChange={(e) => handleFilterChange(key, e.target.checked)}
+                            />
+                            <label
+                              htmlFor={`category-${key}`}
+                              className="ml-3 text-sm text-gray-600"
+                            >
+                              {ServiceTypeLabels[key]}
+                            </label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                </div>
 
                 <div className="space-y-4 my-8">
                   <div className="flex items-center">
@@ -342,7 +316,7 @@ export default function Stylists() {
 
               {/* Product grid */}
               {stylists && stylists.length > 0 &&
-                <div className="lg:col-span-3">{<StylistBlocks stylists={filteredStylists}/>}</div>
+                <div className="lg:col-span-3">{<StylistBlocks stylists={filteredStylists} />}</div>
               }
             </div>
           </section>

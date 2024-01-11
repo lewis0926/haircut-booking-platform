@@ -12,7 +12,7 @@ const StylistSignUpForm = () => {
     lastName: '',
     description: '',
     icon: null,
-    services: [{ type: '', price: '' }],
+    serviceTypes: [{ name: '', price: '' }],
     email: '',
     password: '',
   });
@@ -21,23 +21,23 @@ const StylistSignUpForm = () => {
     event.preventDefault();
     setFormData((prevData) => ({
       ...prevData,
-      services: [...prevData.services, { type: '', price: '' }],
+      serviceTypes: [...prevData.serviceTypes, { name: '', price: '' }],
     }));
   };
 
   const handleServiceChange = (index, field, value) => {
     setFormData((prevData) => {
-      const updatedServices = [...prevData.services];
+      const updatedServices = [...prevData.serviceTypes];
       updatedServices[index][field] = value;
-      return { ...prevData, services: updatedServices };
+      return { ...prevData, serviceTypes: updatedServices };
     });
   };
 
   const removeService = (index) => {
     setFormData((prevData) => {
-      const updatedServices = [...prevData.services];
+      const updatedServices = [...prevData.serviceTypes];
       updatedServices.splice(index, 1);
-      return { ...prevData, services: updatedServices };
+      return { ...prevData, serviceTypes: updatedServices };
     });
   };
 
@@ -48,15 +48,16 @@ const StylistSignUpForm = () => {
     const requiredFields = [
       { name: 'firstName', label: 'First Name' },
       { name: 'lastName', label: 'Last Name' },
-      { name: 'services', label: 'Services' },
+      { name: 'serviceTypes', label: 'Services' },
       { name: 'email', label: 'Email' },
       { name: 'password', label: 'Password' },
     ];
 
     const missingFields = requiredFields.filter((field) => {
-      if (field.name === 'services') {
+      if (field.name === 'serviceTypes') {
         // Check if at least one service is provided
-        return formData.services.length === 0 || !formData.services.every(service => service.type && service.price);
+        console.log(formData.serviceTypes)
+        return formData.serviceTypes.length === 0 || !formData.serviceTypes.every(service => service.name && service.price);
       }
 
       return !formData[field.name];
@@ -68,31 +69,33 @@ const StylistSignUpForm = () => {
       return;
     }
 
-    const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '');
-    const fileNameWithTimestamp = `${formData.icon.name.replace(/\.[^/.]+$/, '')}_${timestamp}.${formData.icon.name.split('.').pop()}`;
+    try {
+      const body = {...formData};
+      delete body.icon;
 
-    const storage = getStorage();
-    const iconStorageRef = ref(storage, `icons/${fileNameWithTimestamp}`);
+      console.log(body)
+      const signedUpStylist = await signUpStylist(body);
 
-    if (formData.icon) {
-      try {
+      if (formData.icon) {
+        const timestamp = new Date().toISOString().replace(/[-T:.Z]/g, '');
+        const fileNameWithTimestamp = `${formData.icon.name.replace(/\.[^/.]+$/, '')}_${timestamp}.${formData.icon.name.split('.').pop()}`;
+
+        const storage = getStorage();
+        const iconStorageRef = ref(storage, `icons/${fileNameWithTimestamp}`);
+
         await uploadBytes(iconStorageRef, formData.icon);
         console.log('Icon file uploaded successfully!');
 
-        const stylist = {...formData, iconPath: `icons/${fileNameWithTimestamp}`};
-        delete stylist.icon;
-
-        const signedUpStylist = await signUpStylist(formData);
         await createBlob({
-          type: "icon",
+          type: "icons",
           fileName: fileNameWithTimestamp,
           userId: signedUpStylist._id
         });
-
-        console.log('Stylist signed up successfully!');
-      } catch (error) {
-        console.error('Error signing up stylist: ', error);
       }
+
+      console.log('Stylist signed up successfully!');
+    } catch (error) {
+      console.error('Error signing up stylist: ', error);
     }
   };
 
@@ -185,11 +188,11 @@ const StylistSignUpForm = () => {
                     <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor="services">
                       Services you provide <span className="text-red-600">*</span>
                     </label>
-                    {formData.services.map((service, index) => (
+                    {formData.serviceTypes.map((service, index) => (
                       <div key={index} className="flex items-center mb-2">
                         <select
-                          value={service.type}
-                          onChange={(e) => handleServiceChange(index, 'type', e.target.value)}
+                          value={service.name}
+                          onChange={(e) => handleServiceChange(index, 'name', e.target.value)}
                           className="form-input w-full text-gray-800 mr-2"
                         >
                           <option value="" disabled>Select Service</option>

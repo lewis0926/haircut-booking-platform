@@ -54,27 +54,29 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      const decoded = jwtDecode(user.stsTokenManager.accessToken);
-      if (decoded.role === "STYLIST") {
-        getStylistDetails(user.uid).then((stylist) => {
-          setUserInfo({
-            role: decoded.role,
-            firstName: stylist.firstName,
-            lastName: stylist.lastName,
+      if (user) {
+        const decoded = jwtDecode(user.stsTokenManager.accessToken);
+        if (decoded.role === "STYLIST") {
+          getStylistDetails(user.uid).then((stylist) => {
+            setUserInfo({
+              role: decoded.role,
+              firstName: stylist.firstName,
+              lastName: stylist.lastName,
+            });
           });
-        });
-      } else if (decoded.role === "CUSTOMER") {
-        getUser(user.uid).then((user) => {
-          setUserInfo({
-            role: decoded.role,
-            firstName: user.firstName,
-            lastName: user.lastName,
+        } else if (decoded.role === "CUSTOMER") {
+          getUser(user.uid).then((user) => {
+            setUserInfo({
+              role: decoded.role,
+              firstName: user.firstName,
+              lastName: user.lastName,
+            });
           });
-        });
+        }
       }
 
-      setCurrentUser(user);
-      setLoading(false);
+        setCurrentUser(user);
+        setLoading(false);
     });
 
     return unsubscribe;

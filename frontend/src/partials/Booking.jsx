@@ -5,7 +5,6 @@ import http from "../api/http-common.js";
 import {adjustHours} from "../utils/DateUtil.js";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { useParams } from "react-router-dom";
-import ImageSlider from './ImageSlider.jsx';
 
 const BookingInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -181,7 +180,7 @@ const Booking = () => {
 			  })
 			  .finally(() => {
 				setSubmitting(false); // Reset submitting state
-			  });
+			});
 		  }}
 		  className="flex flex-col min-h-screen overflow-hidden"
       >

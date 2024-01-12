@@ -1,21 +1,14 @@
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
+import AwesomeSliderStyles from 'react-awesome-slider/src/styles';
 
-const ImageSlider = () => {
+const ImageSlider = ({imgSrc}) => {
+  console.log("slider JSON URL " + JSON.stringify(imgSrc));
+  console.log("slider URL " + imgSrc);
   return (
-    <AwesomeSlider className='my-5'
-        media={[
-        {
-            source: 'https://cdn.shopify.com/s/files/1/2384/0833/files/3_Slick_Back_1024x1024.jpg?v=1668876082',
-        },
-        {
-            source: 'https://cdn.shopify.com/s/files/1/2384/0833/files/1_Quiff_1024x1024.jpg?v=1668876008',
-        },
-        {
-            source: 'https://cdn.shopify.com/s/files/1/2384/0833/files/2_French_Crop_1024x1024.jpg?v=1668876039',
-        },
-        ]}
-    />
+    <AwesomeSlider cssModule={AwesomeSliderStyles} className='my-5'>
+      {imgSrc.map(src => <div data-src={src} />)}
+    </AwesomeSlider>
   )
 };
 

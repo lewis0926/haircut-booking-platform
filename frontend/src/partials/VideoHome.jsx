@@ -12,7 +12,7 @@ function VideoHome() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 my-auto h-screen md:text-end text-center">
 
         <video autoPlay loop muted id='bg-video' className="">
-            <source src="/videos/bg-video.mp4" Type='video/mp4'></source>
+            <source src="/videos/bg-video.mp4" type='video/mp4'></source>
         </video>
         {/* Hero content */}
         <div className="pt-32 pb-12 md:pt-40 md:pb-20 md:w-3/5 xl:w-2/5 w-full py-0 md:float-right" >

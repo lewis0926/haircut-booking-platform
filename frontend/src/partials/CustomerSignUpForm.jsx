@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Modal from '../utils/Modal';
 import Welcome from '../images/welcome.png';
+import {signUpUser, getAll} from "../network/userCrud";
 
 const baseURL = "http://localhost:8000/customer/signup";
 
@@ -19,18 +20,28 @@ function CustomerSignUpForm() {
   function handleSubmit(event) {
     event.preventDefault();
     event.stopPropagation();
-    axios.post(baseURL, {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      phone: phone,
-      password: password
+
+    const result = signUpUser({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phone: phone,
+        password: password
     })
-      .then((response) => {
-        console.log(response.data);
-        setModalOpen(true);
-      })
-      .catch(error => console.warn(error));
+    console.log(result);
+    if(result!=null) setModalOpen(true);
+    // axios.post(baseURL, {
+    //   firstName: firstName,
+    //   lastName: lastName,
+    //   email: email,
+    //   phone: phone,
+    //   password: password
+    // })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setModalOpen(true);
+    //   })
+    //   .catch(error => console.warn(error));
   }
 
 

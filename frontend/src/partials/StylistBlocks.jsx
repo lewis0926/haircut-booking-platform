@@ -11,10 +11,12 @@ function StylistBlocks({stylists}) {
   const [icons, setIcons] = useState({});
 
   useEffect(() => {
-    getBlobs(stylists.map(stylist => stylist._id), "icons").then((res) => {
-      setIconPaths(res);
-    });
-  }, []);
+    if (stylists?.length > 0) {
+      getBlobs(stylists.map(stylist => stylist._id), "icons").then((res) => {
+        setIconPaths(res);
+      });
+    }
+  }, [stylists]);
 
   useEffect(() => {
     if (iconPaths?.length > 0) {

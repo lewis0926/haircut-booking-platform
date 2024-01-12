@@ -53,19 +53,19 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const decoded = jwtDecode(user.stsTokenManager.accessToken);
         if (decoded.role === "STYLIST") {
-          getStylistDetails(user.uid).then((stylist) => {
-            setUserInfo({
+          await getStylistDetails(user.uid).then((stylist) => {
+            awaitsetUserInfo({
               role: decoded.role,
               firstName: stylist.firstName,
               lastName: stylist.lastName,
             });
           });
         } else if (decoded.role === "CUSTOMER") {
-          getUser(user.uid).then((user) => {
+          await getUser(user.uid).then((user) => {
             setUserInfo({
               role: decoded.role,
               firstName: user.firstName,

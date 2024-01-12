@@ -21,7 +21,7 @@ export default function Stylists() {
     [ServiceType.HAIR_STYLING]: true,
     [ServiceType.HAIR_TREATMENT]: true,
     [ServiceType.NAIL]: true,
-    [ServiceType.SKINCARE]: true,
+    [ServiceType.SKIN_CARE]: true,
     [ServiceType.MAKEUP]: true,
     [ServiceType.OTHERS]: true,
   })

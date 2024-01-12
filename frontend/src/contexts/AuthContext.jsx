@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
         const decoded = jwtDecode(user.stsTokenManager.accessToken);
         if (decoded.role === "STYLIST") {
           await getStylistDetails(user.uid).then((stylist) => {
-            awaitsetUserInfo({
+            setUserInfo({
               role: decoded.role,
               firstName: stylist.firstName,
               lastName: stylist.lastName,

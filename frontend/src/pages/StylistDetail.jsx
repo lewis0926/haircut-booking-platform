@@ -33,9 +33,7 @@ const StylistDetail = () => {
             const pathReference = ref(storage, iconPath.path);
             getDownloadURL(pathReference).then((url) => {
               console.log("Stylist detail download url: " + url);
-              const temp = icons; 
-              temp.push(url);
-              setIcons(temp);
+              setIcons(prev => [...prev, url]);
             }).catch((error) => {
               console.log(error);
             });
@@ -86,7 +84,7 @@ const StylistDetail = () => {
                     <div className='flex flex-row justify-center items-center'>
                         {stylistDetail && stylistDetail.serviceTypes ? stylistDetail.serviceTypes.map((service) => {
                             return (
-                                <span className='m-2 font-extrabold text-gray-600'>{serviceNameMapper(service.name)}</span>
+                                <span key={service.name} className='m-2 font-extrabold text-gray-600'>{serviceNameMapper(service.name)}</span>
                             )
                         }) : null}
                     </div>

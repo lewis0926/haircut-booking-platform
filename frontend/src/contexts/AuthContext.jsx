@@ -56,7 +56,7 @@ export function AuthProvider({ children }) {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
         const decoded = jwtDecode(user.stsTokenManager.accessToken);
-        if (decoded.role === "STYLIST") {
+        if (decoded.role?.toUpperCase() === "STYLIST") {
           await getStylistDetails(user.uid).then((stylist) => {
             setUserInfo({
               role: decoded.role,
@@ -64,7 +64,7 @@ export function AuthProvider({ children }) {
               lastName: stylist.lastName,
             });
           });
-        } else if (decoded.role === "CUSTOMER") {
+        } else if (decoded.role?.toUpperCase() === "CUSTOMER") {
           await getUser(user.uid).then((user) => {
             setUserInfo({
               role: decoded.role,

@@ -21,7 +21,7 @@ function Header() {
     setUserName("");
     setUserId('');
     // Sign-out successful.
-    location.reload();
+    window.location.href = "/";
   }
   
   // detect whether user has scrolled the page down by 10px 

@@ -9,13 +9,13 @@ class AuthService {
   }
 
   public verifyCustomer = async (role: Role) => {
-    if (role !== Role.CUSTOMER) {
+    if (role.toUpperCase() !== Role.CUSTOMER) {
       throw new UnauthorizedError("You don't have the right permission to access this resource.")
     }
   }
 
   public verifyStylist = async (role: Role) => {
-    if (role !== Role.STYLIST) {
+    if (role.toUpperCase() !== Role.STYLIST) {
       throw new UnauthorizedError("You don't have the right permission to access this resource.")
     }
   }

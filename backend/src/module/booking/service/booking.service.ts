@@ -57,6 +57,7 @@ class BookingService {
       }
       return up;
     });
+    return updated;
   }
 
   public getBookingsByStylist = async (stylistId: string): Promise<Booking[]> => {

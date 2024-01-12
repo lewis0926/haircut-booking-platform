@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 
 interface Review {
-  id?: Types.ObjectId;
+  _id?: Types.ObjectId;
   customerId: Types.ObjectId;
   stylistId: Types.ObjectId;
   serviceType: string;

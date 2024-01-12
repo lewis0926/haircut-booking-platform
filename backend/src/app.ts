@@ -48,8 +48,8 @@ const initializeApp = async (): Promise<void> => {
   const shopService = new ShopService();
   const stylistService = new StylistService(shopService, authService);
   const customerService = new CustomerService(authService);
-  const bookingService = new BookingService(customerService, stylistService);
   const reviewService = new ReviewService(customerService, stylistService);
+  const bookingService = new BookingService(customerService, stylistService, reviewService);
   const blobService = new BlobService();
 
   const shopController = new ShopController(shopService);

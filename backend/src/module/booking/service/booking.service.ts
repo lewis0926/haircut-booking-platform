@@ -29,6 +29,7 @@ class BookingService {
     const bookings = await this.bookingModel.find({
       customerId: new Types.ObjectId(customerId)
     }) as Booking[];
+    console.log("Bookings: " + JSON.stringify(bookings));
     const stylistIds = bookings.map(booking => new Types.ObjectId(booking.stylistId));
     const stylists = await this.stylistService.findManyByIds(stylistIds as Types.ObjectId[]);
     
@@ -57,6 +58,7 @@ class BookingService {
       }
       return up;
     });
+    return updated;
   }
 
   public getBookingsByStylist = async (stylistId: string): Promise<Booking[]> => {

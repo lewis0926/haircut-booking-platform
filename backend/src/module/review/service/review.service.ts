@@ -1,10 +1,11 @@
 import ReviewModel from "../models/review.model";
 import logger from "../../../logger";
 import Review from "../interfaces/review.interface";
-import { NotFoundError } from "../../../middleware/custom-errors";
+import { NotFoundError, ValidationError } from "../../../middleware/custom-errors";
 import { Types } from "mongoose";
 import CustomerService from "../../customer/services/customer.service";
 import StylistService from "../../stylist/service/stylist.service";
+import Stylist from "../../stylist/interface/stylist.interface";
 
 class ReviewService {
   private readonly reviewModel;
@@ -95,6 +96,18 @@ class ReviewService {
 
   public getReviewsByCustomerId = async (id: string): Promise<Review[]> => {
     return await this.reviewModel.find({customertId: id});
+  }
+
+  public findManyByIds = async (reviewIds: Array<Types.ObjectId>): Promise<Review[]> => {
+    if (!reviewIds || reviewIds.length <= 0) {
+      throw new ValidationError(`Review ID is required`);
+    }
+    
+    return await this.reviewModel.find({
+      '_id': { $in:
+        reviewIds
+      }
+    });
   }
 }
 

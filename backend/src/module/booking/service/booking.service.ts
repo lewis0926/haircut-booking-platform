@@ -5,25 +5,57 @@ import { Date, Types } from "mongoose";
 import BookingModel from "../models/booking.model";
 import CustomerService from "../../customer/services/customer.service";
 import StylistService from "../../stylist/service/stylist.service";
+import ReviewService from "../../review/service/review.service";
 
 class BookingService {
   private readonly bookingModel;
   private readonly customerService;
   private readonly stylistService;
+  private readonly reviewService;
 
   constructor(
     customerService: CustomerService,
     stylistService: StylistService,
+    reviewService: ReviewService,
   ) {
     this.bookingModel = BookingModel;
     this.customerService = customerService;
     this.stylistService = stylistService;
+    this.reviewService = reviewService;
   }
 
   public getBookingsByCustomer = async (customerId: string): Promise<Booking[]> => {
     logger.info(`Getting bookings by customer with id: ${customerId}`);
-    return await this.bookingModel.find({
+    const bookings = await this.bookingModel.find({
       customerId: new Types.ObjectId(customerId)
+    }) as Booking[];
+    const stylistIds = bookings.map(booking => new Types.ObjectId(booking.stylistId));
+    const stylists = await this.stylistService.findManyByIds(stylistIds as Types.ObjectId[]);
+    
+    const reviewIds = bookings.filter(booking => booking.reviewId).map(booking => new Types.ObjectId(booking.reviewId));
+    const reviews = await this.reviewService.findManyByIds(reviewIds as Types.ObjectId[]);
+    
+    const stylistMap = new Map();
+    stylists.forEach((stylist) => stylistMap.set(stylist._id?.toString(), stylist));
+    
+    const reviewMap = new Map();
+    reviews.forEach((review) => reviewMap.set(review._id?.toString(), review));
+    
+    const updated =  bookings.map(booking => {
+      let up = booking;
+      if (booking.stylistId) {
+        up = {
+          ...up,
+          stylist: stylistMap.get(booking.stylistId.toString())
+        }
+      }
+      if (booking.reviewId) {
+        up = {
+          ...up,
+          review: reviewMap.get(booking.reviewId.toString())
+        }
+      }
+      return up;
     });
   }
 
@@ -59,7 +91,7 @@ class BookingService {
     if (customerId && booking.customerId.toString() !== customerId) {
       throw new UnauthorizedError("You are not authorized to cancel this booking");
     }
-    if (stylistId && booking.stylistId.toString() !== stylistId) {
+    if (stylistId && booking.stylistId && booking.stylistId.toString() !== stylistId) {
       throw new UnauthorizedError("You are not authorized to cancel this booking");
     }
 
@@ -82,7 +114,7 @@ class BookingService {
     if (customerId && booking.customerId.toString() !== customerId) {
       throw new UnauthorizedError("You are not authorized to update this booking");
     }
-    if (stylistId && booking.stylistId.toString() !== stylistId) {
+    if (stylistId && booking.stylistId && booking.stylistId.toString() !== stylistId) {
       throw new UnauthorizedError("You are not authorized to update this booking");
     }
 

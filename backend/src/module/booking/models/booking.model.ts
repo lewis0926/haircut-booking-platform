@@ -1,6 +1,8 @@
 import mongoose, { Schema, Types } from 'mongoose';
 import ShopInterface from "../interfaces/booking.interface";
 import { ServiceType } from "../../stylist/enum/service-type.enum";
+import stylistModel from '../../stylist/models/stylist.model';
+import reviewModel from '../../review/models/review.model';
 
 interface BookingDocument extends Document, ShopInterface {}
 
@@ -10,11 +12,24 @@ const BooingSchema = new Schema(
       type: Types.ObjectId,
       required: true
     },
-
+    
     stylistId: {
       type: Types.ObjectId,
-      required: true
+      // required: true
     },
+
+    // stylist: {
+    //   type: stylistModel
+    // },
+
+    reviewId: {
+      type: Types.ObjectId,
+      required: false
+    },
+
+    // review: {
+    //   types: reviewModel
+    // },
 
     startAt: {
       type: Date,

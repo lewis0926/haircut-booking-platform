@@ -3,27 +3,25 @@ import { Link } from 'react-router-dom';
 import Icon from '../images/scissor.png';
 import { auth } from "../config/firebase";
 import { useAuth } from "../contexts/AuthContext";
+import {getUser} from "../network/userProfile.js";
 
 function Header() {
 
   const { currentUser, login, setError, logout } = useAuth();
+  const [userName, setUserName] = useState('');
   const [top, setTop] = useState(true);
 
-  try {
-    const currentUser = auth.currentUser;
-    //console.log("currentUser: " + JSON.stringify(currentUser));
-    //const t = currentUser && (currentUser.getIdToken());
-    // setToken(t);
-  } catch (e) {
-    console.log(e);
+  console.log(currentUser);
+
+  if(currentUser!=null){
+      getUser(currentUser.uid).then((res) => {
+        setUserName(res.firstName + ' ' + res.lastName);
+        console.log(res);
+      });
+
   }
 
   const [userId,setUserId] = useState(currentUser==null?'':currentUser.uid);
-
-
-  // const fetch = async () => {
-    
-  // }
 
   const signOut = async () => {
     await logout();
@@ -32,9 +30,6 @@ function Header() {
     location.reload();
   }
   
-
-  // fetch();
-
   // detect whether user has scrolled the page down by 10px 
   useEffect(() => {
     
@@ -88,7 +83,7 @@ function Header() {
             :
             (
               <ul className="flex flex-grow justify-end flex-wrap items-center"><li>
-              <Link to="/" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{currentUser.email}</Link>
+              <Link to="/user" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
             </li>
             <li>
               <button className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3" onClick={()=>signOut()}>

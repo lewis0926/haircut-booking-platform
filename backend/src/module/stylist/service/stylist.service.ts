@@ -1,6 +1,6 @@
 import logger from "../../../logger";
-import { NotFoundError } from "../../../middleware/custom-errors";
-import { Types } from "mongoose";
+import { NotFoundError, ValidationError } from "../../../middleware/custom-errors";
+import mongoose, { Types } from "mongoose";
 import StylistModel from "../models/stylist.model";
 import Stylist from "../interface/stylist.interface";
 import ShopService from "../../shop/service/shop.service";
@@ -77,6 +77,18 @@ class StylistService {
     );
 
     return await this.stylistModel.findById(stylistId);
+  }
+
+  public findManyByIds = async (stylistIds: Array<Types.ObjectId>): Promise<Stylist[]> => {
+    if (!stylistIds || stylistIds.length <= 0) {
+      throw new ValidationError(`Stylist ID is required`);
+    }
+    
+    return await this.stylistModel.find({
+      '_id': { $in:
+        stylistIds
+      }
+    });
   }
 }
 

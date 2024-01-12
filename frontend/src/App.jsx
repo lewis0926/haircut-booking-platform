@@ -17,6 +17,7 @@ import ResetPassword from './pages/ResetPassword';
 import Stylists from "./pages/Stylists";
 import { AuthProvider } from "./contexts/AuthContext";
 import StylistDetail from './pages/StylistDetail';
+import StylistProfile from "./pages/StylistProfile";
 import UserProfile from './pages/UserProfile';
 import CustBookings from './pages/CustBookings';
 
@@ -51,6 +52,7 @@ function App() {
           <Route path="/stylistDetail/:stylId" element={<StylistDetail />} />
           <Route path="/user" element={<UserProfile />} />
           <Route path="/cust-bookings/:custId" element={<CustBookings />} />
+          <Route path="/stylist/profile/:id" element={<StylistProfile />} />
         </Routes>
       </AuthProvider>
     </>

@@ -12,7 +12,7 @@ const StylistSignUpForm = () => {
     lastName: '',
     description: '',
     icon: null,
-    serviceTypes: [{ name: '', price: '' }],
+    serviceTypes: [],
     email: '',
     password: '',
   });
@@ -21,7 +21,7 @@ const StylistSignUpForm = () => {
     event.preventDefault();
     setFormData((prevData) => ({
       ...prevData,
-      serviceTypes: [...prevData.serviceTypes, { name: '', price: '' }],
+      serviceTypes: [...prevData.serviceTypes, { name: '', price: 0 }],
     }));
   };
 
@@ -97,6 +97,8 @@ const StylistSignUpForm = () => {
     } catch (error) {
       console.error('Error signing up stylist: ', error);
     }
+
+    window.location.href = "/";
   };
 
   const handleInputChange = (event) => {
@@ -181,6 +183,16 @@ const StylistSignUpForm = () => {
                       className="form-input w-full text-gray-800"
                       onChange={handleInputChange}
                     />
+                    {formData.icon && (
+                      <div className="mt-2">
+                        <img
+                          id="uploadedIcon"
+                          src={URL.createObjectURL(formData.icon)}
+                          alt="Uploaded Icon"
+                          className="w-full max-w-sm mb-4"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-4">
@@ -204,7 +216,7 @@ const StylistSignUpForm = () => {
                           type="number"
                           placeholder="Enter Price"
                           value={service.price}
-                          onChange={(e) => handleServiceChange(index, 'price', e.target.value)}
+                          onChange={(e) => handleServiceChange(index, 'price', parseInt(e.target.value))}
                           className="form-input w-full text-gray-800 mr-2"
                         />
                         <div className="ml-auto">

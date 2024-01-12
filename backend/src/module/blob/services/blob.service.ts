@@ -13,7 +13,9 @@ class BlobService {
     if (!userIds || userIds.length === 0) throw new Error("Missing userIds");
     if (!type) throw new Error("Missing type");
 
-    const blobs = await this.blobModel.find({ userId: { $in: userIds }, type: type });
+    const blobs = await this.blobModel
+      .find({ userId: { $in: userIds }, type: type })
+      .sort({ createdAt: -1 });
     return blobs.map(blob => {
       return {
         userId: blob.userId,

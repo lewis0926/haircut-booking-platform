@@ -3,10 +3,14 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 
 import { auth } from "../config/firebase";
 // import { ObjectId } from "mongodb";
+import { jwtDecode } from "jwt-decode";
+import {getStylistDetails} from "../network/stylistCrud";
+import {getUser} from "../network/userProfile";
 
 const AuthContext = createContext();
 
@@ -18,6 +22,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [userInfo, setUserInfo] = useState("");
 
   function register(email, password) {
     createUserWithEmailAndPassword(auth, email, password)
@@ -49,6 +54,25 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      const decoded = jwtDecode(user.stsTokenManager.accessToken);
+      if (decoded.role === "STYLIST") {
+        getStylistDetails(user.uid).then((stylist) => {
+          setUserInfo({
+            role: decoded.role,
+            firstName: stylist.firstName,
+            lastName: stylist.lastName,
+          });
+        });
+      } else if (decoded.role === "CUSTOMER") {
+        getUser(user.uid).then((user) => {
+          setUserInfo({
+            role: decoded.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          });
+        });
+      }
+
       setCurrentUser(user);
       setLoading(false);
     });
@@ -60,6 +84,7 @@ export function AuthProvider({ children }) {
     currentUser,
     error,
     setError,
+    userInfo,
     login,
     register,
     logout

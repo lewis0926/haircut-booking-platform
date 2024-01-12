@@ -1,30 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../images/scissor.png';
-import { auth } from "../config/firebase";
 import { useAuth } from "../contexts/AuthContext";
-import {getUser} from "../network/userProfile.js";
 
 function Header() {
 
-  const { currentUser, login, setError, logout } = useAuth();
-  const [userName, setUserName] = useState('');
+  const { currentUser, userInfo, logout } = useAuth();
+  const [userName, setUserName] = useState(currentUser == null ? "" : userInfo.firstName + ' ' + userInfo.lastName);
   const [top, setTop] = useState(true);
-
-  console.log(currentUser);
-
-  if(currentUser!=null){
-      getUser(currentUser.uid).then((res) => {
-        setUserName(res.firstName + ' ' + res.lastName);
-        console.log(res);
-      });
-
-  }
-
   const [userId,setUserId] = useState(currentUser==null?'':currentUser.uid);
 
   const signOut = async () => {
     await logout();
+    setUserName("");
     setUserId('');
     // Sign-out successful.
     location.reload();
@@ -83,8 +71,12 @@ function Header() {
             :
             (
               <ul className="flex flex-grow justify-end flex-wrap items-center"><li>
-              <Link to="/user" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
-            </li>
+                {userInfo.role === "STYLIST" ? (
+                  <Link to={`/stylist/profile/${userId}`} className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
+                ) : (
+                  <Link to="/user" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
+                )}
+              </li>
             <li>
               <button className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3" onClick={()=>signOut()}>
               <span>Sign Out</span>

@@ -4,7 +4,7 @@ export const ServiceType = {
   HAIR_STYLING: "HAIR_STYLING",
   HAIR_TREATMENT: "HAIR_TREATMENT",
   NAIL: "NAIL",
-  SKINCARE: "SKINCARE",
+  SKIN_CARE: "SKIN_CARE",
   MAKEUP: "MAKEUP",
   OTHERS: "OTHERS",
 }
@@ -15,7 +15,7 @@ export const ServiceTypeLabels = {
   [ServiceType.HAIR_STYLING]: "Hair Styling",
   [ServiceType.HAIR_TREATMENT]: "Hair Treatment",
   [ServiceType.NAIL]: "Nail",
-  [ServiceType.SKINCARE]: "Skin Care",
+  [ServiceType.SKIN_CARE]: "Skin Care",
   [ServiceType.MAKEUP]: "Makeup",
   [ServiceType.OTHERS]: "Others",
 }

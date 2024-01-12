@@ -9,6 +9,12 @@ function Header() {
   const [userName, setUserName] = useState(currentUser == null ? "" : userInfo.firstName + ' ' + userInfo.lastName);
   const [top, setTop] = useState(true);
   const [userId,setUserId] = useState(currentUser==null?'':currentUser.uid);
+  const [menu, setMenu] = React.useState(false);
+
+  //for dropdown menu
+  const handleOpen = () => {
+    setMenu(!menu);
+  };
 
   const signOut = async () => {
     await logout();
@@ -71,12 +77,35 @@ function Header() {
             :
             (
               <ul className="flex flex-grow justify-end flex-wrap items-center"><li>
-                {userInfo.role === "STYLIST" ? (
+               {userInfo.role === "STYLIST" ? (
                   <Link to={`/stylist/profile/${userId}`} className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
                 ) : (
-                  <Link to="/user" className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}</Link>
+                  <button onClick={handleOpen} className="relative font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out">{userName}&nbsp;
+                  <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                 </svg>
+                </button>
                 )}
-              </li>
+
+
+
+
+              {menu ? (
+              <div class="absolute z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                <li>
+                  <a href="/user" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">View Profile</a>
+                </li>
+                <li>
+                  <a href="/stylists" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New Booking</a>
+                </li>
+                <li>
+                  <a href={"/cust-bookings/"+currentUser.uid} class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My Booking</a>
+                </li>
+              </ul>
+          </div>):(<div>
+              </div>)}
+            </li>
             <li>
               <button className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3" onClick={()=>signOut()}>
               <span>Sign Out</span>

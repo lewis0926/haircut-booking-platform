@@ -15,14 +15,21 @@ function UserProfile() {
       {/*  Site header */}
       <Header />
 
-      {/*  Page content */}
-      <main className="flex-grow">
+      <div className="bg-white">
+        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+            <h1 className="text-4xl font-bold tracking-tight text-gray-900 h2 mb-4">Profile</h1>
+          </div>
 
+          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <UserBlock />
+          </section>
+        </main>
+      </div>
         {/*  Page sections */}
-        <UserBlock />
 
 
-      </main>
+
 
       {/* <Banner /> */}
 

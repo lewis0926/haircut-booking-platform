@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {serviceTypeParser} from '../utils/EnumLabel';
 import ReviewForm from './ReviewForm';
 import star from '../images/rate-star.svg';
+import { format } from 'date-fns';
 
 function StylistBlocks({bookings}) {
 
@@ -15,7 +16,7 @@ function StylistBlocks({bookings}) {
           {bookings.map((booking, index) => (
             <div key={index} className="relative flex flex-col items-center p-6 bg-white rounded shadow-xl">
               <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">{booking.stylist && (`${booking.stylist.firstName} ${booking.stylist.lastName}`)}</h4>
-              <p className="text-gray-600 text-center">{booking._doc.startAt}</p>
+              <p className="text-gray-600 text-center">{format(booking._doc.startAt, 'MMMM do yyyy h:mm')} - {format(booking._doc.endAt, 'h:mm')}</p>
               <p className="mt-1 text-gray-500 text-center">
                 {serviceTypeParser(booking._doc.serviceType)}
               </p>

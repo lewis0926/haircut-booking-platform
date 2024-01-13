@@ -6,8 +6,6 @@ import Modal from '../utils/Modal';
 import Welcome from '../images/welcome.png';
 import {signUpUser, getAll} from "../network/userCrud";
 
-const baseURL = "http://localhost:8000/customer/signup";
-
 function CustomerSignUpForm() {
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
@@ -28,20 +26,9 @@ function CustomerSignUpForm() {
         phone: phone,
         password: password
     })
-    console.log(result);
-    if(result!=null) setModalOpen(true);
-    // axios.post(baseURL, {
-    //   firstName: firstName,
-    //   lastName: lastName,
-    //   email: email,
-    //   phone: phone,
-    //   password: password
-    // })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setModalOpen(true);
-    //   })
-    //   .catch(error => console.warn(error));
+    if(result!=null){
+      setModalOpen(true)
+    };
   }
 
 

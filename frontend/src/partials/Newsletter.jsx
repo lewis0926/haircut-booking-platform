@@ -7,9 +7,9 @@ function Newsletter() {
   const [sub, setSub] = React.useState('false');
   const [email, setEmail] = React.useState('');
 
-  const handleClick = () => {
-    console.log('Subscribed' + email);
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setSub('true');
   }
 
@@ -56,14 +56,14 @@ function Newsletter() {
                 <p className="text-gray-300 text-lg mb-6">Subscribe to receive updates, access to exclusive deals, and more</p>
 
                 {/* CTA form */}
-                <form className="w-full lg:w-auto">
+                <form onSubmit={handleSubmit} className="w-full lg:w-auto">
                   <div className="flex flex-col sm:flex-row justify-center max-w-xs mx-auto sm:max-w-md lg:mx-0">
-                    <input type="email" className="form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500" placeholder="Your email…" aria-label="Your email…" onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" className="form-input w-full appearance-none bg-gray-800 border border-gray-700 focus:border-gray-600 rounded-sm px-4 py-3 mb-2 sm:mb-0 sm:mr-2 text-white placeholder-gray-500" placeholder="Your email…" aria-label="Your email…" onChange={(e) => setEmail(e.target.value)} required/>
                     {sub == 'true'?(
-                      <a className="btn text-white bg-rose-800 shadow disable">Subscribed</a>
+                      <button className="btn text-white bg-rose-800 shadow" disabled>Subscribed</button>
                     )
                     :(
-                      <a className="btn text-white bg-rose-700 hover:bg-rose-800 shadow" onClick={handleClick}>Subscribe</a>
+                      <button className="btn text-white bg-rose-700 hover:bg-rose-800 shadow">Subscribe</button>
                     )}
                     <div>
                 </div></div>

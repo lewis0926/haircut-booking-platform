@@ -5,6 +5,9 @@ import http from "../api/http-common.js";
 import {adjustHours} from "../utils/DateUtil.js";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { useParams } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 const BookingInput = ({ label, ...props }) => {
   // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
@@ -21,6 +24,32 @@ const BookingInput = ({ label, ...props }) => {
     </>
   );
 };
+
+const MyInput = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+      <div>
+        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor={props.id || props.name}>{label}</label>
+        <input {...field} {...props} />
+        {meta.touched && meta.error ? (
+          <div className="error text-sm font-bold mb-1 text-red-600">{meta.error}</div>
+        ) : null}
+      </div>
+    );
+};
+
+const MyTextArea = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+      <div>
+        <label className="block text-gray-800 text-sm font-medium mb-1" htmlFor={props.id || props.name}>{label}</label>
+        <textarea {...field} {...props} />
+        {meta.touched && meta.error ? (
+          <div className="error text-sm font-bold mb-1 text-red-600">{meta.error}</div>
+        ) : null}
+      </div>
+    );
+  };
 
 const MySelect = ({ label, ...props }) => {
   const [field, meta] = useField(props);
@@ -41,6 +70,9 @@ const Booking = () => {
   const [selectedPrice, setSelectedPrice] = useState();
   const [servicePrices, setServicePrices] = useState({});
   const [selectedServiceType, setSelectedServiceType] = useState();
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   let { stylId } = useParams();
 
   const { currentUser } = useAuth();
@@ -160,6 +192,7 @@ const Booking = () => {
         })}
         onSubmit={(values, { setSubmitting, resetForm }) => {
 			console.log(`Submitting...${JSON.stringify(values)}`);
+			handleOpen();
 			// Handle form submission
 			values = {
 				...values,
@@ -179,6 +212,7 @@ const Booking = () => {
 				console.error('API Error:', error);
 			  })
 			  .finally(() => {
+				
 				setSubmitting(false); // Reset submitting state
 			});
 		  }}
@@ -255,6 +289,35 @@ const Booking = () => {
 		  </section>
 		)}
       </Formik>
+	  <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="absolute
+                            top-1/2
+                            left-1/2
+                            -translate-x-1/2
+                            -translate-y-1/2
+                            w-400
+                            bg-white
+                            shadow-md
+                            p-4">
+            <section className="relative">
+
+              <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="flex flex-col max-w-sm mx-auto gap-6 items-center md:max-w-2xl lg:max-w-none px-3">
+                    <Typography id="modal-modal-title" variant="h6" component="h2">
+                        Booked Successfully
+                    </Typography>
+                    <button className="btn items-center justify-center text-white bg-rose-700 hover:bg-rose-800 w-1/3 mt-4 " onClick={handleClose} >Close</button>
+                </div>
+              </div>
+            </section>
+          </Box>
+        </Modal>
+		
     </>
   );
 };

@@ -5,18 +5,41 @@ import Footer from "../partials/Footer";
 import Header from "../partials/Header";
 import Booking from "../partials/Booking";
 import ImageSlider from '../partials/ImageSlider.jsx';
+import {getBlobs} from "../network/blobCrud";
+import {getStorage, ref, getDownloadURL} from "firebase/storage";
 
 const StylistDetail = () => {
     let { stylId } = useParams();
+    const storage = getStorage();
     const [stylistDetail, setStylistDetail] = useState({});
+    const [iconPaths, setIconPaths] = useState([]);
+    const [icons, setIcons] = useState([]);
 
-    useEffect(() => {
+     useEffect(() => {
         http.get(`/stylist/${stylId}`).then((res) => {
           setStylistDetail(res.data)
         }).catch(error => {
           console.error('Error fetching stylist:', error.message);
         });
+        getBlobs([stylId], "stylist-detail").then((res) => {
+            console.log("Stylist detail icons: " + JSON.stringify(res));
+            setIconPaths(res);
+          });
     }, []);
+
+    useEffect(() => {
+        if (iconPaths?.length > 0) {
+          iconPaths.map(iconPath => {
+            const pathReference = ref(storage, iconPath.path);
+            getDownloadURL(pathReference).then((url) => {
+              console.log("Stylist detail download url: " + url);
+              setIcons(prev => [...prev, url]);
+            }).catch((error) => {
+              console.log(error);
+            });
+          });
+        }
+      }, [iconPaths]);
 
     const serviceNameMapper = (key) => {
         let value = '';
@@ -61,7 +84,7 @@ const StylistDetail = () => {
                     <div className='flex flex-row justify-center items-center'>
                         {stylistDetail && stylistDetail.serviceTypes ? stylistDetail.serviceTypes.map((service) => {
                             return (
-                                <span className='m-2 font-extrabold text-gray-600'>{serviceNameMapper(service.name)}</span>
+                                <span key={service.name} className='m-2 font-extrabold text-gray-600'>{serviceNameMapper(service.name)}</span>
                             )
                         }) : null}
                     </div>
@@ -69,7 +92,7 @@ const StylistDetail = () => {
                 </div>
             </div>
             <div className="pb-10">
-                <ImageSlider />
+                <ImageSlider imgSrc={icons} />
             </div>
             <Booking />
         </div>

@@ -136,7 +136,7 @@ export default function ReviewForm({booking}) {
                                     minLength = {5}   // Specifies the minimum number of characters required in the textarea
                                     maxLength = {200}   // Specifies the maximum number of characters allowed in the textarea                
                                 />
-                                <button className="btn items-center justify-center text-white bg-rose-700 hover:bg-rose-800 w-1/3 mt-4 " type="submit" >Submit</button>
+                                
                             </Form>
                         )}
                     </Formik>

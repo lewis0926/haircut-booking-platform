@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = `${import.meta.env.BACKEND_BASE_URL || "http://localhost:8000"}/stylist`;
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/stylist`;
 
 export const getAll = async () => {
   try {

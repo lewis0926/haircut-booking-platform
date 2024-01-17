@@ -5,11 +5,11 @@ import {getDownloadURL, getStorage, ref, uploadBytes} from "firebase/storage";
 import {createBlob, getBlobs} from "../network/blobCrud";
 import {ServiceType, ServiceTypeLabels} from "../enum/service-type.enum";
 import {MinusIcon, PlusIcon} from "@heroicons/react/20/solid";
-import {useParams} from "react-router-dom";
+import {auth} from "../config/firebase";
 
 function StylistProfile() {
   const storage = getStorage();
-  const { id } = useParams();
+  const id = auth.currentUser.uid;
 
   const [formData, setFormData] = useState({
     firstName: '',

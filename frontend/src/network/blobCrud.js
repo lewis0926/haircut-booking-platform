@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = `${import.meta.env.BACKEND_BASE_URL || "http://localhost:8000"}/blob`;
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/blob`;
 
 export const createBlob = async (body) => {
   try {

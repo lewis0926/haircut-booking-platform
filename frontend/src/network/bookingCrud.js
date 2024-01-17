@@ -1,7 +1,7 @@
 import axios from "axios";
 import { auth } from "../config/firebase";
 
-const baseUrl = `${import.meta.env.BACKEND_BASE_URL || "http://localhost:8000"}/booking`;
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/booking`;
 
 export const getByCust = async () => {
   const currentUser = auth.currentUser;

@@ -52,7 +52,7 @@ function App() {
           <Route path="/stylistDetail/:stylId" element={<StylistDetail />} />
           <Route path="/user" element={<UserProfile />} />
           <Route path="/cust-bookings/:custId" element={<CustBookings />} />
-          <Route path="/stylist/profile/:id" element={<StylistProfile />} />
+          <Route path="/stylist/profile" element={<StylistProfile />} />
         </Routes>
       </AuthProvider>
     </>

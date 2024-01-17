@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = `${import.meta.env.BACKEND_BASE_URL || "http://localhost:8000"}/customer`;
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL || "http://localhost:8000"}/customer`;
 
 export const getUser = async (uid) => {
     try {
@@ -28,7 +28,7 @@ export const signUpUser = async (body) => {
     console.log(body);
     console.log("sign up");
 
-    await axios.post('http://localhost:8000/customer/signup', body)
+    await axios.post(`${baseUrl}/signup`, body)
     .then((response) => {
         console.log(response.data);
         return response.data;

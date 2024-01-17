@@ -1,5 +1,6 @@
 import BlobModel from "../models/blob.model";
 import BlobInterface from "../interfaces/blob.interface";
+import { Types } from "mongoose";
 
 class BlobService {
   private readonly blobModel;
@@ -13,9 +14,24 @@ class BlobService {
     if (!userIds || userIds.length === 0) throw new Error("Missing userIds");
     if (!type) throw new Error("Missing type");
 
-    const blobs = await this.blobModel
-      .find({ userId: { $in: userIds }, type: type })
-      .sort({ createdAt: -1 });
+    const blobs = await this.blobModel.aggregate([
+      {
+        $match: { userId: { $in: userIds.map(id => new Types.ObjectId(id)) }, type: type }
+      },
+      {
+        $sort: { userId: 1, createdAt: -1 }
+      },
+      {
+        $group: {
+          _id: "$userId",
+          latestBlob: { $first: "$$ROOT" }
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$latestBlob" }
+      }
+    ]);
+
     return blobs.map(blob => {
       return {
         userId: blob.userId,
